@@ -1,4 +1,6 @@
+######## IMPORTS ########
 import uuid
+import random
 
 class Bee:
     def __init__(self, name, role):
@@ -10,6 +12,23 @@ class Bee:
 
         print("[Debug] Bee " + self.name + " created with id " + self.beeId + " and role " + self.role)
     
+    def to_dict(self):
+        return {
+            "name": self.name,
+            "role": self.role,
+            "model": self.model,
+            "injections": self.injections,
+            "beeId": self.beeId
+        }
+
+    @staticmethod
+    def from_dict(d):
+        bee = Bee(d.get("name"), d.get("role"))
+        bee.model = d.get("model")
+        bee.injections = d.get("injections")
+        bee.beeId = d.get("beeId")
+        return bee
+
     def attach_model(self, model):
         self.model = model
 
@@ -39,17 +58,17 @@ class Bee:
         for injection in self.injections:
             print(injection)
 
-    def query(self, prompt, history=[]):
+    def query(self, prompt, context, log):
         assert self.model is not None, "Could not query " + self.name + ": Model not attached to bee"
 
         #### a) Roll injections
-        succesfull_injections = []
+        successfull_injections = []
         for injection in self.injections:
             target = injection['interval']
             roll = random.randint(1, target)
             if roll == target:
-                succesfull_injections.append(injection)
-                print("[Debug] 🎲 Injection " + injection['id'] +  "with behaviour " + injection['behaviour'] + " successful for " + self.name)
+                successfull_injections.append(injection)
+                print("[Debug] 🎲 Injection " + injection['id'] +  " with behaviour " + injection['behaviour'] + " successful for " + self.name)
 
         injection = None
 
@@ -62,25 +81,16 @@ class Bee:
                 #pick injection with highest interval. If all succesfull injections have the same interval, pick one at random
                 maxInterval = max(injection['interval'] for injection in successfull_injections)
                 injection = random.choice([injection for injection in successfull_injections if injection['interval'] == maxInterval])
-                print("[Debug] Injection " + injection['id'] +  "with behaviour " + injection['behaviour'] + " successful for " + self.name)
+                print("[Debug] There were " + str(len(successfull_injections)) + " injections successful for " + self.name + ", picked " + injection['behaviour'] + " with interval " + str(injection['interval']) + " out of the following injections: " + str(successfull_injections))
 
 
         #### c) Generate response
         print("[Debug] Bee " + self.name + " is thinking...")
         promptTemplate = ""
 
-        # add history
-        promptTemplate += "".join(["<message>" + message + "</message>" for message in history])
+        #code to invoke model
 
-        # add prompt
-        promptTemplate += prompt
-
-        #add injection to prompt
-        if injection:
-            promptTemplate += "<injection>" + injection['behaviour'] + "</injection>"
-        
-
-        #response = self.inferModel(promptTemplate)
+        return  f"<Bee {self.name} Reply>"
 
         
         
