@@ -15,10 +15,10 @@ class Bee:
     def to_dict(self):
         return {
             "name": self.name,
+            "beeId": self.beeId,
             "role": self.role,
             "model": self.model,
-            "injections": self.injections,
-            "beeId": self.beeId
+            "injections": self.injections
         }
 
     @staticmethod
@@ -38,7 +38,7 @@ class Bee:
     def addInjection(self, behaviour, interval):
         injectionId = str(uuid.uuid4())
         self.injections.append({"id": injectionId, "behaviour": behaviour, "interval": interval})
-        print("[Debug] Injection added to " + self.name + " with id " + injectionId)
+        print("[Debug] Injection added to " + self.name + " Bee with id " + injectionId)
 
     def remove_injection(self, injectionId):
         self.injections.remove(injectionId)
@@ -54,13 +54,14 @@ class Bee:
                 injection['interval'] = interval
 
     def log_injections(self):
-        print("[Debug] Injections for " + self.name + ":")
+        print("[Debug] Injections for " + self.name + "Bee :")
         for injection in self.injections:
             print(injection)
 
     def query(self, prompt, context, log):
         assert self.model is not None, "Could not query " + self.name + ": Model not attached to bee"
 
+        print("[Debug] " + self.name + " bee is thinking...")
         #### a) Roll injections
         successfull_injections = []
         for injection in self.injections:
@@ -68,7 +69,7 @@ class Bee:
             roll = random.randint(1, target)
             if roll == target:
                 successfull_injections.append(injection)
-                print("[Debug] 🎲 Injection " + injection['id'] +  " with behaviour " + injection['behaviour'] + " successful for " + self.name)
+                print("[Debug] 🎲 Injection " + f"'{injection['behaviour']}'" + " successful for " + self.name + " Bee")
 
         injection = None
 
@@ -81,16 +82,15 @@ class Bee:
                 #pick injection with highest interval. If all succesfull injections have the same interval, pick one at random
                 maxInterval = max(injection['interval'] for injection in successfull_injections)
                 injection = random.choice([injection for injection in successfull_injections if injection['interval'] == maxInterval])
-                print("[Debug] There were " + str(len(successfull_injections)) + " injections successful for " + self.name + ", picked " + injection['behaviour'] + " with interval " + str(injection['interval']) + " out of the following injections: " + str(successfull_injections))
+                print("[Debug] There were " + str(len(successfull_injections)) + " injections successful for the" + self.name + " Bee, picked " + "'"+ injection['behaviour'] +"' with interval " + str(injection['interval']))
 
 
         #### c) Generate response
-        print("[Debug] Bee " + self.name + " is thinking...")
         promptTemplate = ""
 
         #code to invoke model
 
-        return  f"<Bee {self.name} Reply>"
+        return  f"<{self.name} Bee Reply>"
 
         
         

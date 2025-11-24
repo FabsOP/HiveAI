@@ -4,6 +4,7 @@ import uuid
 import datetime
 import os
 import Queen
+import Bee
 import json
 
 class Hive:
@@ -11,8 +12,6 @@ class Hive:
     def __init__(self, hiveName):
         self.hiveID = str(uuid.uuid1())
         self.hiveName = hiveName
-        print("[Debug] Hive " + self.hiveName + " created with id " + self.hiveID +"\n")
-
         
         self.models = []
 
@@ -24,9 +23,6 @@ class Hive:
         self.randomize = False
 
         self.lastModified = datetime.datetime.now().isoformat()
-
-        
-        self.save() 
 
     @staticmethod
     def deleteHive(id):
@@ -49,6 +45,48 @@ class Hive:
             "randomize": self.randomize,
             "lastModified": self.lastModified
         }
+
+    @staticmethod
+    def from_dict(d):
+        hive = Hive(d["hiveName"])
+        hive.hiveID = d["hiveID"]
+        hive.models = d["models"]
+        hive.bees = [Bee.Bee.from_dict(bee) for bee in d["bees"]]
+        hive.queen = Queen.Queen.from_dict(d["queen"])
+        hive.history = d["history"]
+        hive.sequential = d["sequential"]
+        hive.randomize = d["randomize"]
+        hive.lastModified = d["lastModified"]
+        
+        #attach models to bees
+        for bee in hive.bees:
+            for model in hive.models:
+                if model == bee.model:
+                    bee.attach_model(model)
+        return hive
+
+    
+    def load(self, id):
+        #load hive from file
+        with open("hives/" + "hive_" + id + ".json", "r") as f:
+            data = json.load(f)
+
+        self.hiveID = data["hiveID"]
+        self.hiveName = data["hiveName"]
+        self.models = data["models"]
+        self.bees = [Bee.Bee.from_dict(bee) for bee in data["bees"]]
+        self.queen = Queen.Queen.from_dict(data["queen"])
+        self.history = data["history"]
+        self.sequential = data["sequential"]
+        self.randomize = data["randomize"]
+        self.lastModified = data["lastModified"]
+        
+        #attach models to bees
+        for bee in self.bees:
+            for model in self.models:
+                if model == bee.model:
+                    bee.attach_model(model)
+
 
     def add_bee(self, bee):
         self.bees.append(bee)
@@ -94,6 +132,12 @@ class Hive:
     def getQueen(self):
         return self.queen
 
+    def attach_model_to_queen(self, model):
+        self.queen.attach_model(model)
+    
+    def detach_model_from_queen(self, model):
+        self.queen.detach_model(model)
+
     def getModels(self):
         return self.models
 
@@ -104,25 +148,31 @@ class Hive:
         assert self.queen.get_model() is not None, "Could not query " + self.hiveName + ": Queen model not attached"
         assert len(self.bees) > 0, "Could not query " + self.hiveName + ": No bees in hive"
 
-        print("[Debug] Hive " + self.hiveName + " is querying with prompt: " + prompt)
+        print("############################# HIVE CONFIGURATION ########################################")
+        print(f"[Debug] Querying {self.hiveName} with prompt: " + prompt)
         print("[Debug] Number of bees: " + str(len(self.bees)))
         print("[Debug] Number of rounds: " + str(n))
+        print("############################ FETCH CONTEXT #########################################")
         logs = []
         bees = self.bees.copy()
 
         context = self.queen.extractContext(prompt, self.history)
+        print(f"[Debug] {context}")
+        print("############################## START OF DISCUSSION #######################################")
 
         for i in range(n):
-            print("\nRound " + str(i+1))
+            print("\n### Round " + str(i+1) + " ###")
             if self.randomize:
                 random.shuffle(bees)
             for bee in bees:
                 response = bee.query(prompt, context, logs)
+                print(f"[Debug] {response}\n")
                 entry = {"round": i, "beeId": bee.beeId, "name": bee.name, "role": bee.role, "response": response }
                 logs.append(entry)
-        
+        print("\n############################# END OF DISCUSSION ########################################")
         aggregated_response = self.queen.aggregate_response(prompt, logs)
-        self.updateHistory(prompt, logs, aggregated_response)
+        print("[Debug] Queen 👑: " + aggregated_response)
+        self.updateHistory(prompt, len(bees), n, logs, aggregated_response, )
         self.updateLastModified()
         self.save()
         return aggregated_response
@@ -130,9 +180,9 @@ class Hive:
     def updateLastModified(self):
         self.lastModified = datetime.datetime.now().isoformat()
     
-    def updateHistory(self, prompt, logs, response):
-        self.history.append({"prompt": prompt, "logs": logs, "response": response})
-        print("[Debug] Hive " + self.hiveName + " history updated")
+    def updateHistory(self, prompt, nBees, nRounds, logs, response):
+        self.history.append({"prompt": prompt, "nBees": nBees, "nRounds": nRounds , "logs": logs, "response": response})
+        print("[Debug] " + self.hiveName + " history updated")
     
     def save(self):
         #if hives directory does not exist create it
@@ -141,7 +191,17 @@ class Hive:
         
         #save hive to file
         with open("hives/" + "hive_" + self.hiveID + ".json", "w") as f:
-            json.dump(self.to_dict(), f)
-        print("[Debug] Hive " + self.hiveName + " saved")
-            
-        
+            json.dump(
+                self.to_dict(),
+                f,
+                indent=4,
+                separators=(',', ': ')
+            )
+        print("[Debug] " + self.hiveName + " saved")
+
+    def log_properties(self):
+        print(json.dumps(self.to_dict(), indent=4))
+
+    def clear_history(self):
+        self.history = []
+        self.save()
