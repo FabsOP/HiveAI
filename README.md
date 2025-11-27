@@ -163,11 +163,21 @@ pip install -r requirements.txt
 ```
 
 ### Quick Start
-1. **Launch the CLI**: `python app_CLI.py`
-2. **Create a Hive**: Option 1 -> Create new hive.
-3. **Connect Parallax**: Add your model URL (e.g., `http://localhost:3001`).
-4. **Configure Agents**: Assign the model to your Queen and create your Bees.
-5. **Query**: Start a conversation and watch the hive think.
+
+#### 1. Configure Your Hive (CLI)
+1. **Launch the CLI**: `python configureHive.py`
+2. **Create a Hive**: Select the option to create a new hive
+3. **Add Model Endpoints**: Connect your local model endpoints (e.g., `http://localhost:3001`)
+4. **Create Bees**: Add worker bees to your hive
+5. **Attach Models**: Assign models to your Queen and Bees
+6. **Define Roles**: Set unique roles for each bee to guide their behavior
+7. **Add Injections** (Optional): Configure random injections to add variety to bee responses
+
+#### 2. Launch the UI
+1. **Run the App**: `python app.py`
+2. **Watch the Canvas**: See your living bees visualized on the interactive canvas
+3. **Send Queries**: Type your message and watch the bees collaborate in real-time
+4. **Observe Interactions**: See bee discussions, injections, and the Queen's final response
 
 ---
 
@@ -176,10 +186,10 @@ pip install -r requirements.txt
 We are actively expanding HiveMind's capabilities:
 
 - **⚡ Parallel Inference**: Running multiple bees simultaneously on distributed Parallax nodes for faster round completion.
-- **🕸️ Web Interface**: A visual canvas to watch bees collaborate in real-time (replacing the CLI).
 - **🧠 Semantic Memory**: Enhanced vector-based retrieval for even smarter context management.
 - **📂 Document Ingestion**: Allow hives to read and analyze uploaded PDFs/text files.
 - **🔗 API Mode**: Headless mode to integrate HiveMind reasoning into other applications.
+- **🎨 Enhanced Canvas**: More bee animations, visual effects, and interaction indicators.
 
 ---
 

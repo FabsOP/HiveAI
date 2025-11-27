@@ -58,7 +58,7 @@ class Bee:
         for injection in self.injections:
             print(injection)
 
-    def query(self, prompt, context, log):
+    def query(self, prompt, context, log, callback=None):
         assert self.model is not None, "Could not query " + self.name + ": Model not attached to bee"
 
         print("[Debug] " + self.name + " bee is thinking...")
@@ -89,8 +89,13 @@ class Bee:
         promptTemplate = ""
 
         #code to invoke model
+        response = f"Bee Reply"
+        if injection:
+            response += f"\nInjection: {injection}\n\n"
 
-        return  f"<{self.name} Bee Reply>"
+        if callback: callback({"name": self.name, "response":response})
+
+        return response
 
         
         

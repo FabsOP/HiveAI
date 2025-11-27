@@ -378,7 +378,6 @@ def manage_injections(bee):
         
         if not injections:
             print("No injections configured.")
-            input("\nPress Enter to continue...")
         else:
             for i, injection in enumerate(injections, 1):
                 print(f"{i}. {injection['behaviour']} (interval: {injection['interval']})")

@@ -144,7 +144,10 @@ class Hive:
     def getBees(self):
         return self.bees
 
-    def query(self, prompt, n):
+    def getHistory(self):
+        return self.history
+
+    def query(self, prompt, n, callback=None):
         assert self.queen.get_model() is not None, "Could not query " + self.hiveName + ": Queen model not attached"
         assert len(self.bees) > 0, "Could not query " + self.hiveName + ": No bees in hive"
 
@@ -165,12 +168,12 @@ class Hive:
             if self.randomize:
                 random.shuffle(bees)
             for bee in bees:
-                response = bee.query(prompt, context, logs)
+                response = bee.query(prompt, context, logs, callback)
                 print(f"[Debug] {response}\n")
                 entry = {"round": i, "beeId": bee.beeId, "name": bee.name, "role": bee.role, "response": response }
                 logs.append(entry)
         print("\n############################# END OF DISCUSSION ########################################")
-        aggregated_response = self.queen.aggregate_response(prompt, logs)
+        aggregated_response = self.queen.aggregate_response(prompt, logs, callback)
         print("[Debug] Queen 👑: " + aggregated_response)
         self.updateHistory(prompt, len(bees), n, logs, aggregated_response, )
         self.updateLastModified()

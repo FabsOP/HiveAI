@@ -39,7 +39,7 @@ class Queen:
     def set_role(self, role):
         self.role = role
 
-    def aggregate_response(self, prompt, logs):
+    def aggregate_response(self, prompt, logs, callback):
         assert self.model is not None, "Could not query " + self.name + ": Model not attached to queen"
 
         promptTemplate = ""
@@ -47,7 +47,9 @@ class Queen:
         print("[Debug] Queen is thinking...")
         #code to invoke model
 
-        return "<Aggregated Queen Response>"
+        response = "Aggregated Queen Response"
+        if callback: callback({"name": self.name, "response":response})
+        return response
 
     def extractContext(self, prompt, history):
         assert self.model is not None, "Could not query " + self.name + ": Model not attached to queen"

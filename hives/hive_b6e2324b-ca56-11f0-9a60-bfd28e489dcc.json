@@ -1,0 +1,18 @@
+{
+    "hiveID": "b6e2324b-ca56-11f0-9a60-bfd28e489dcc",
+    "hiveName": "Hive 2",
+    "models": [
+        "gpt(7B)",
+        "qwen32B"
+    ],
+    "bees": [],
+    "queen": {
+        "name": "Queen",
+        "role": "Your role is to aggregate all bee responses after the round ends and deliver the final response to the user",
+        "model": "qwen32B"
+    },
+    "history": [],
+    "sequential": true,
+    "randomize": false,
+    "lastModified": "2025-11-26T01:31:30.582806"
+}

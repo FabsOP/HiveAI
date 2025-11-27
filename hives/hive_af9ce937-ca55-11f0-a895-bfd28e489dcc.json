@@ -1,0 +1,281 @@
+{
+    "hiveID": "af9ce937-ca55-11f0-a895-bfd28e489dcc",
+    "hiveName": "My Hive",
+    "models": [
+        "http://localhost:3001",
+        "www.endpoint.com"
+    ],
+    "bees": [
+        {
+            "name": "Creative",
+            "beeId": "023e4abd-ca56-11f0-b3b7-bfd28e489dcc",
+            "role": "You should provide out of the box answers",
+            "model": "www.endpoint.com",
+            "injections": [
+                {
+                    "id": "26c59d6a-982c-455f-9de1-31a95c08d990",
+                    "behaviour": "Think out loud",
+                    "interval": 1
+                }
+            ]
+        }
+    ],
+    "queen": {
+        "name": "Queen",
+        "role": "Your role is to aggregate all bee responses after the round ends and deliver the final response to the user",
+        "model": "www.endpoint.com"
+    },
+    "history": [
+        {
+            "prompt": "How do I get better at skateboarding",
+            "nBees": 1,
+            "nRounds": 5,
+            "logs": [
+                {
+                    "round": 0,
+                    "beeId": "023e4abd-ca56-11f0-b3b7-bfd28e489dcc",
+                    "name": "Creative",
+                    "role": "You should provide out of the box answers",
+                    "response": "Creative Bee Reply"
+                },
+                {
+                    "round": 1,
+                    "beeId": "023e4abd-ca56-11f0-b3b7-bfd28e489dcc",
+                    "name": "Creative",
+                    "role": "You should provide out of the box answers",
+                    "response": "Creative Bee Reply"
+                },
+                {
+                    "round": 2,
+                    "beeId": "023e4abd-ca56-11f0-b3b7-bfd28e489dcc",
+                    "name": "Creative",
+                    "role": "You should provide out of the box answers",
+                    "response": "Creative Bee Reply"
+                },
+                {
+                    "round": 3,
+                    "beeId": "023e4abd-ca56-11f0-b3b7-bfd28e489dcc",
+                    "name": "Creative",
+                    "role": "You should provide out of the box answers",
+                    "response": "Creative Bee Reply"
+                },
+                {
+                    "round": 4,
+                    "beeId": "023e4abd-ca56-11f0-b3b7-bfd28e489dcc",
+                    "name": "Creative",
+                    "role": "You should provide out of the box answers",
+                    "response": "Creative Bee Reply"
+                }
+            ],
+            "response": "Aggregated Queen Response"
+        },
+        {
+            "prompt": "How to make pancakes?",
+            "nBees": 1,
+            "nRounds": 1,
+            "logs": [
+                {
+                    "round": 0,
+                    "beeId": "023e4abd-ca56-11f0-b3b7-bfd28e489dcc",
+                    "name": "Creative",
+                    "role": "You should provide out of the box answers",
+                    "response": "Creative Bee Reply"
+                }
+            ],
+            "response": "Aggregated Queen Response"
+        },
+        {
+            "prompt": "how to make pancakes for vegans?",
+            "nBees": 1,
+            "nRounds": 3,
+            "logs": [
+                {
+                    "round": 0,
+                    "beeId": "023e4abd-ca56-11f0-b3b7-bfd28e489dcc",
+                    "name": "Creative",
+                    "role": "You should provide out of the box answers",
+                    "response": "Creative Bee Reply"
+                },
+                {
+                    "round": 1,
+                    "beeId": "023e4abd-ca56-11f0-b3b7-bfd28e489dcc",
+                    "name": "Creative",
+                    "role": "You should provide out of the box answers",
+                    "response": "Creative Bee Reply"
+                },
+                {
+                    "round": 2,
+                    "beeId": "023e4abd-ca56-11f0-b3b7-bfd28e489dcc",
+                    "name": "Creative",
+                    "role": "You should provide out of the box answers",
+                    "response": "Creative Bee Reply"
+                }
+            ],
+            "response": "Aggregated Queen Response"
+        },
+        {
+            "prompt": "hi",
+            "nBees": 1,
+            "nRounds": 1,
+            "logs": [
+                {
+                    "round": 0,
+                    "beeId": "023e4abd-ca56-11f0-b3b7-bfd28e489dcc",
+                    "name": "Creative",
+                    "role": "You should provide out of the box answers",
+                    "response": "Creative Bee Reply"
+                }
+            ],
+            "response": "Aggregated Queen Response"
+        },
+        {
+            "prompt": "test",
+            "nBees": 1,
+            "nRounds": 3,
+            "logs": [
+                {
+                    "round": 0,
+                    "beeId": "023e4abd-ca56-11f0-b3b7-bfd28e489dcc",
+                    "name": "Creative",
+                    "role": "You should provide out of the box answers",
+                    "response": "Bee Reply"
+                },
+                {
+                    "round": 1,
+                    "beeId": "023e4abd-ca56-11f0-b3b7-bfd28e489dcc",
+                    "name": "Creative",
+                    "role": "You should provide out of the box answers",
+                    "response": "Bee Reply"
+                },
+                {
+                    "round": 2,
+                    "beeId": "023e4abd-ca56-11f0-b3b7-bfd28e489dcc",
+                    "name": "Creative",
+                    "role": "You should provide out of the box answers",
+                    "response": "Bee Reply"
+                }
+            ],
+            "response": "Aggregated Queen Response"
+        },
+        {
+            "prompt": "hey",
+            "nBees": 1,
+            "nRounds": 1,
+            "logs": [
+                {
+                    "round": 0,
+                    "beeId": "023e4abd-ca56-11f0-b3b7-bfd28e489dcc",
+                    "name": "Creative",
+                    "role": "You should provide out of the box answers",
+                    "response": "Bee Reply"
+                }
+            ],
+            "response": "Aggregated Queen Response"
+        },
+        {
+            "prompt": "What is up",
+            "nBees": 1,
+            "nRounds": 1,
+            "logs": [
+                {
+                    "round": 0,
+                    "beeId": "023e4abd-ca56-11f0-b3b7-bfd28e489dcc",
+                    "name": "Creative",
+                    "role": "You should provide out of the box answers",
+                    "response": "Bee Reply"
+                }
+            ],
+            "response": "Aggregated Queen Response"
+        },
+        {
+            "prompt": "hey there",
+            "nBees": 1,
+            "nRounds": 1,
+            "logs": [
+                {
+                    "round": 0,
+                    "beeId": "023e4abd-ca56-11f0-b3b7-bfd28e489dcc",
+                    "name": "Creative",
+                    "role": "You should provide out of the box answers",
+                    "response": "Bee Reply"
+                }
+            ],
+            "response": "Aggregated Queen Response"
+        },
+        {
+            "prompt": "How to snowboard?",
+            "nBees": 1,
+            "nRounds": 5,
+            "logs": [
+                {
+                    "round": 0,
+                    "beeId": "023e4abd-ca56-11f0-b3b7-bfd28e489dcc",
+                    "name": "Creative",
+                    "role": "You should provide out of the box answers",
+                    "response": "Bee Reply"
+                },
+                {
+                    "round": 1,
+                    "beeId": "023e4abd-ca56-11f0-b3b7-bfd28e489dcc",
+                    "name": "Creative",
+                    "role": "You should provide out of the box answers",
+                    "response": "Bee Reply"
+                },
+                {
+                    "round": 2,
+                    "beeId": "023e4abd-ca56-11f0-b3b7-bfd28e489dcc",
+                    "name": "Creative",
+                    "role": "You should provide out of the box answers",
+                    "response": "Bee Reply"
+                },
+                {
+                    "round": 3,
+                    "beeId": "023e4abd-ca56-11f0-b3b7-bfd28e489dcc",
+                    "name": "Creative",
+                    "role": "You should provide out of the box answers",
+                    "response": "Bee Reply"
+                },
+                {
+                    "round": 4,
+                    "beeId": "023e4abd-ca56-11f0-b3b7-bfd28e489dcc",
+                    "name": "Creative",
+                    "role": "You should provide out of the box answers",
+                    "response": "Bee Reply"
+                }
+            ],
+            "response": "Aggregated Queen Response"
+        },
+        {
+            "prompt": "How to make an origami bird",
+            "nBees": 1,
+            "nRounds": 3,
+            "logs": [
+                {
+                    "round": 0,
+                    "beeId": "023e4abd-ca56-11f0-b3b7-bfd28e489dcc",
+                    "name": "Creative",
+                    "role": "You should provide out of the box answers",
+                    "response": "Bee Reply\nInjection: {'id': '26c59d6a-982c-455f-9de1-31a95c08d990', 'behaviour': 'Think out loud', 'interval': 1}\n\n"
+                },
+                {
+                    "round": 1,
+                    "beeId": "023e4abd-ca56-11f0-b3b7-bfd28e489dcc",
+                    "name": "Creative",
+                    "role": "You should provide out of the box answers",
+                    "response": "Bee Reply\nInjection: {'id': '26c59d6a-982c-455f-9de1-31a95c08d990', 'behaviour': 'Think out loud', 'interval': 1}\n\n"
+                },
+                {
+                    "round": 2,
+                    "beeId": "023e4abd-ca56-11f0-b3b7-bfd28e489dcc",
+                    "name": "Creative",
+                    "role": "You should provide out of the box answers",
+                    "response": "Bee Reply\nInjection: {'id': '26c59d6a-982c-455f-9de1-31a95c08d990', 'behaviour': 'Think out loud', 'interval': 1}\n\n"
+                }
+            ],
+            "response": "Aggregated Queen Response"
+        }
+    ],
+    "sequential": true,
+    "randomize": false,
+    "lastModified": "2025-11-27T02:02:09.550128"
+}
