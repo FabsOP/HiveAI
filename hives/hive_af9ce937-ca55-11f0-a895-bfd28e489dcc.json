@@ -1,217 +1,160 @@
 {
     "hiveID": "af9ce937-ca55-11f0-a895-bfd28e489dcc",
-    "hiveName": "My Hive",
+    "hiveName": "Testing Hive",
+    "top_k": 3,
     "models": [
         "http://localhost:3001",
-        "www.endpoint.com"
+        "http://endpoint.com",
+        "endpoint.com"
     ],
     "bees": [
         {
             "name": "Creative",
             "beeId": "023e4abd-ca56-11f0-b3b7-bfd28e489dcc",
             "role": "You should provide out of the box answers",
-            "model": "www.endpoint.com",
+            "model": "http://localhost:3001",
             "injections": [
                 {
-                    "id": "26c59d6a-982c-455f-9de1-31a95c08d990",
-                    "behaviour": "Think out loud",
-                    "interval": 1
+                    "id": "d79547b9-7f0a-4442-bb94-b8a5b4b59eab",
+                    "behaviour": "Think outside the box",
+                    "interval": 10
+                },
+                {
+                    "id": "762bee97-e954-4ac3-a581-156b232bcf57",
+                    "behaviour": "Skip participating in this round",
+                    "interval": 2
                 }
             ]
+        },
+        {
+            "name": "Realist",
+            "beeId": "a59c1ae5-cbda-11f0-a5cc-a4a16910a13f",
+            "role": "Worker bee",
+            "model": "http://localhost:3001",
+            "injections": []
+        },
+        {
+            "name": "Bob",
+            "beeId": "9291ea63-cbe4-11f0-80fd-a4a16910a13f",
+            "role": "Worker bee",
+            "model": "http://localhost:3001",
+            "injections": []
+        },
+        {
+            "name": "Jeff",
+            "beeId": "9f59fcf3-cbe4-11f0-a0c8-a4a16910a13f",
+            "role": "Worker bee",
+            "model": "http://localhost:3001",
+            "injections": []
+        },
+        {
+            "name": "Hyperliteral",
+            "beeId": "c88ee406-cbe4-11f0-8cc8-a4a16910a13f",
+            "role": "Worker bee",
+            "model": "http://localhost:3001",
+            "injections": []
+        },
+        {
+            "name": "Critical",
+            "beeId": "cf118975-cbe4-11f0-affd-a4a16910a13f",
+            "role": "Worker bee",
+            "model": "http://localhost:3001",
+            "injections": []
+        },
+        {
+            "name": "Devil's Advocate",
+            "beeId": "899a5e98-cbea-11f0-90f2-a4a16910a13f",
+            "role": "Worker bee",
+            "model": "http://localhost:3001",
+            "injections": []
+        },
+        {
+            "name": "Business Minded",
+            "beeId": "355817eb-cbf3-11f0-a7d4-a4a16910a13f",
+            "role": "Worker bee",
+            "model": "http://localhost:3001",
+            "injections": []
         }
     ],
     "queen": {
         "name": "Queen",
-        "role": "Your role is to aggregate all bee responses after the round ends and deliver the final response to the user",
-        "model": "www.endpoint.com"
+        "role": "Your role is to aggregate all bee responses after the discussion ends and deliver the final response to the user",
+        "model": "endpoint.com"
     },
     "history": [
         {
-            "prompt": "How do I get better at skateboarding",
-            "nBees": 1,
-            "nRounds": 5,
-            "logs": [
-                {
-                    "round": 0,
-                    "beeId": "023e4abd-ca56-11f0-b3b7-bfd28e489dcc",
-                    "name": "Creative",
-                    "role": "You should provide out of the box answers",
-                    "response": "Creative Bee Reply"
-                },
-                {
-                    "round": 1,
-                    "beeId": "023e4abd-ca56-11f0-b3b7-bfd28e489dcc",
-                    "name": "Creative",
-                    "role": "You should provide out of the box answers",
-                    "response": "Creative Bee Reply"
-                },
-                {
-                    "round": 2,
-                    "beeId": "023e4abd-ca56-11f0-b3b7-bfd28e489dcc",
-                    "name": "Creative",
-                    "role": "You should provide out of the box answers",
-                    "response": "Creative Bee Reply"
-                },
-                {
-                    "round": 3,
-                    "beeId": "023e4abd-ca56-11f0-b3b7-bfd28e489dcc",
-                    "name": "Creative",
-                    "role": "You should provide out of the box answers",
-                    "response": "Creative Bee Reply"
-                },
-                {
-                    "round": 4,
-                    "beeId": "023e4abd-ca56-11f0-b3b7-bfd28e489dcc",
-                    "name": "Creative",
-                    "role": "You should provide out of the box answers",
-                    "response": "Creative Bee Reply"
-                }
-            ],
-            "response": "Aggregated Queen Response"
-        },
-        {
-            "prompt": "How to make pancakes?",
-            "nBees": 1,
-            "nRounds": 1,
-            "logs": [
-                {
-                    "round": 0,
-                    "beeId": "023e4abd-ca56-11f0-b3b7-bfd28e489dcc",
-                    "name": "Creative",
-                    "role": "You should provide out of the box answers",
-                    "response": "Creative Bee Reply"
-                }
-            ],
-            "response": "Aggregated Queen Response"
-        },
-        {
-            "prompt": "how to make pancakes for vegans?",
-            "nBees": 1,
+            "prompt": "Test",
+            "nBees": 8,
             "nRounds": 3,
             "logs": [
                 {
                     "round": 0,
+                    "beeId": "899a5e98-cbea-11f0-90f2-a4a16910a13f",
+                    "name": "Devil's Advocate",
+                    "role": "Worker bee",
+                    "response": "Bee Reply"
+                },
+                {
+                    "round": 0,
+                    "beeId": "c88ee406-cbe4-11f0-8cc8-a4a16910a13f",
+                    "name": "Hyperliteral",
+                    "role": "Worker bee",
+                    "response": "Bee Reply"
+                },
+                {
+                    "round": 0,
+                    "beeId": "355817eb-cbf3-11f0-a7d4-a4a16910a13f",
+                    "name": "Business Minded",
+                    "role": "Worker bee",
+                    "response": "Bee Reply"
+                },
+                {
+                    "round": 0,
                     "beeId": "023e4abd-ca56-11f0-b3b7-bfd28e489dcc",
                     "name": "Creative",
                     "role": "You should provide out of the box answers",
-                    "response": "Creative Bee Reply"
+                    "response": "Bee Reply"
+                },
+                {
+                    "round": 0,
+                    "beeId": "9291ea63-cbe4-11f0-80fd-a4a16910a13f",
+                    "name": "Bob",
+                    "role": "Worker bee",
+                    "response": "Bee Reply"
+                },
+                {
+                    "round": 0,
+                    "beeId": "cf118975-cbe4-11f0-affd-a4a16910a13f",
+                    "name": "Critical",
+                    "role": "Worker bee",
+                    "response": "Bee Reply"
+                },
+                {
+                    "round": 0,
+                    "beeId": "9f59fcf3-cbe4-11f0-a0c8-a4a16910a13f",
+                    "name": "Jeff",
+                    "role": "Worker bee",
+                    "response": "Bee Reply"
+                },
+                {
+                    "round": 0,
+                    "beeId": "a59c1ae5-cbda-11f0-a5cc-a4a16910a13f",
+                    "name": "Realist",
+                    "role": "Worker bee",
+                    "response": "Bee Reply"
                 },
                 {
                     "round": 1,
-                    "beeId": "023e4abd-ca56-11f0-b3b7-bfd28e489dcc",
-                    "name": "Creative",
-                    "role": "You should provide out of the box answers",
-                    "response": "Creative Bee Reply"
-                },
-                {
-                    "round": 2,
-                    "beeId": "023e4abd-ca56-11f0-b3b7-bfd28e489dcc",
-                    "name": "Creative",
-                    "role": "You should provide out of the box answers",
-                    "response": "Creative Bee Reply"
-                }
-            ],
-            "response": "Aggregated Queen Response"
-        },
-        {
-            "prompt": "hi",
-            "nBees": 1,
-            "nRounds": 1,
-            "logs": [
-                {
-                    "round": 0,
-                    "beeId": "023e4abd-ca56-11f0-b3b7-bfd28e489dcc",
-                    "name": "Creative",
-                    "role": "You should provide out of the box answers",
-                    "response": "Creative Bee Reply"
-                }
-            ],
-            "response": "Aggregated Queen Response"
-        },
-        {
-            "prompt": "test",
-            "nBees": 1,
-            "nRounds": 3,
-            "logs": [
-                {
-                    "round": 0,
-                    "beeId": "023e4abd-ca56-11f0-b3b7-bfd28e489dcc",
-                    "name": "Creative",
-                    "role": "You should provide out of the box answers",
+                    "beeId": "cf118975-cbe4-11f0-affd-a4a16910a13f",
+                    "name": "Critical",
+                    "role": "Worker bee",
                     "response": "Bee Reply"
                 },
                 {
                     "round": 1,
-                    "beeId": "023e4abd-ca56-11f0-b3b7-bfd28e489dcc",
-                    "name": "Creative",
-                    "role": "You should provide out of the box answers",
-                    "response": "Bee Reply"
-                },
-                {
-                    "round": 2,
-                    "beeId": "023e4abd-ca56-11f0-b3b7-bfd28e489dcc",
-                    "name": "Creative",
-                    "role": "You should provide out of the box answers",
-                    "response": "Bee Reply"
-                }
-            ],
-            "response": "Aggregated Queen Response"
-        },
-        {
-            "prompt": "hey",
-            "nBees": 1,
-            "nRounds": 1,
-            "logs": [
-                {
-                    "round": 0,
-                    "beeId": "023e4abd-ca56-11f0-b3b7-bfd28e489dcc",
-                    "name": "Creative",
-                    "role": "You should provide out of the box answers",
-                    "response": "Bee Reply"
-                }
-            ],
-            "response": "Aggregated Queen Response"
-        },
-        {
-            "prompt": "What is up",
-            "nBees": 1,
-            "nRounds": 1,
-            "logs": [
-                {
-                    "round": 0,
-                    "beeId": "023e4abd-ca56-11f0-b3b7-bfd28e489dcc",
-                    "name": "Creative",
-                    "role": "You should provide out of the box answers",
-                    "response": "Bee Reply"
-                }
-            ],
-            "response": "Aggregated Queen Response"
-        },
-        {
-            "prompt": "hey there",
-            "nBees": 1,
-            "nRounds": 1,
-            "logs": [
-                {
-                    "round": 0,
-                    "beeId": "023e4abd-ca56-11f0-b3b7-bfd28e489dcc",
-                    "name": "Creative",
-                    "role": "You should provide out of the box answers",
-                    "response": "Bee Reply"
-                }
-            ],
-            "response": "Aggregated Queen Response"
-        },
-        {
-            "prompt": "How to snowboard?",
-            "nBees": 1,
-            "nRounds": 5,
-            "logs": [
-                {
-                    "round": 0,
-                    "beeId": "023e4abd-ca56-11f0-b3b7-bfd28e489dcc",
-                    "name": "Creative",
-                    "role": "You should provide out of the box answers",
+                    "beeId": "a59c1ae5-cbda-11f0-a5cc-a4a16910a13f",
+                    "name": "Realist",
+                    "role": "Worker bee",
                     "response": "Bee Reply"
                 },
                 {
@@ -222,60 +165,102 @@
                     "response": "Bee Reply"
                 },
                 {
-                    "round": 2,
-                    "beeId": "023e4abd-ca56-11f0-b3b7-bfd28e489dcc",
-                    "name": "Creative",
-                    "role": "You should provide out of the box answers",
+                    "round": 1,
+                    "beeId": "9f59fcf3-cbe4-11f0-a0c8-a4a16910a13f",
+                    "name": "Jeff",
+                    "role": "Worker bee",
                     "response": "Bee Reply"
-                },
-                {
-                    "round": 3,
-                    "beeId": "023e4abd-ca56-11f0-b3b7-bfd28e489dcc",
-                    "name": "Creative",
-                    "role": "You should provide out of the box answers",
-                    "response": "Bee Reply"
-                },
-                {
-                    "round": 4,
-                    "beeId": "023e4abd-ca56-11f0-b3b7-bfd28e489dcc",
-                    "name": "Creative",
-                    "role": "You should provide out of the box answers",
-                    "response": "Bee Reply"
-                }
-            ],
-            "response": "Aggregated Queen Response"
-        },
-        {
-            "prompt": "How to make an origami bird",
-            "nBees": 1,
-            "nRounds": 3,
-            "logs": [
-                {
-                    "round": 0,
-                    "beeId": "023e4abd-ca56-11f0-b3b7-bfd28e489dcc",
-                    "name": "Creative",
-                    "role": "You should provide out of the box answers",
-                    "response": "Bee Reply\nInjection: {'id': '26c59d6a-982c-455f-9de1-31a95c08d990', 'behaviour': 'Think out loud', 'interval': 1}\n\n"
                 },
                 {
                     "round": 1,
-                    "beeId": "023e4abd-ca56-11f0-b3b7-bfd28e489dcc",
-                    "name": "Creative",
-                    "role": "You should provide out of the box answers",
-                    "response": "Bee Reply\nInjection: {'id': '26c59d6a-982c-455f-9de1-31a95c08d990', 'behaviour': 'Think out loud', 'interval': 1}\n\n"
+                    "beeId": "c88ee406-cbe4-11f0-8cc8-a4a16910a13f",
+                    "name": "Hyperliteral",
+                    "role": "Worker bee",
+                    "response": "Bee Reply"
+                },
+                {
+                    "round": 1,
+                    "beeId": "899a5e98-cbea-11f0-90f2-a4a16910a13f",
+                    "name": "Devil's Advocate",
+                    "role": "Worker bee",
+                    "response": "Bee Reply"
+                },
+                {
+                    "round": 1,
+                    "beeId": "355817eb-cbf3-11f0-a7d4-a4a16910a13f",
+                    "name": "Business Minded",
+                    "role": "Worker bee",
+                    "response": "Bee Reply"
+                },
+                {
+                    "round": 1,
+                    "beeId": "9291ea63-cbe4-11f0-80fd-a4a16910a13f",
+                    "name": "Bob",
+                    "role": "Worker bee",
+                    "response": "Bee Reply"
+                },
+                {
+                    "round": 2,
+                    "beeId": "c88ee406-cbe4-11f0-8cc8-a4a16910a13f",
+                    "name": "Hyperliteral",
+                    "role": "Worker bee",
+                    "response": "Bee Reply"
+                },
+                {
+                    "round": 2,
+                    "beeId": "9f59fcf3-cbe4-11f0-a0c8-a4a16910a13f",
+                    "name": "Jeff",
+                    "role": "Worker bee",
+                    "response": "Bee Reply"
+                },
+                {
+                    "round": 2,
+                    "beeId": "9291ea63-cbe4-11f0-80fd-a4a16910a13f",
+                    "name": "Bob",
+                    "role": "Worker bee",
+                    "response": "Bee Reply"
+                },
+                {
+                    "round": 2,
+                    "beeId": "355817eb-cbf3-11f0-a7d4-a4a16910a13f",
+                    "name": "Business Minded",
+                    "role": "Worker bee",
+                    "response": "Bee Reply"
+                },
+                {
+                    "round": 2,
+                    "beeId": "899a5e98-cbea-11f0-90f2-a4a16910a13f",
+                    "name": "Devil's Advocate",
+                    "role": "Worker bee",
+                    "response": "Bee Reply"
+                },
+                {
+                    "round": 2,
+                    "beeId": "a59c1ae5-cbda-11f0-a5cc-a4a16910a13f",
+                    "name": "Realist",
+                    "role": "Worker bee",
+                    "response": "Bee Reply"
+                },
+                {
+                    "round": 2,
+                    "beeId": "cf118975-cbe4-11f0-affd-a4a16910a13f",
+                    "name": "Critical",
+                    "role": "Worker bee",
+                    "response": "Bee Reply"
                 },
                 {
                     "round": 2,
                     "beeId": "023e4abd-ca56-11f0-b3b7-bfd28e489dcc",
                     "name": "Creative",
                     "role": "You should provide out of the box answers",
-                    "response": "Bee Reply\nInjection: {'id': '26c59d6a-982c-455f-9de1-31a95c08d990', 'behaviour': 'Think out loud', 'interval': 1}\n\n"
+                    "response": "Bee Reply"
                 }
             ],
-            "response": "Aggregated Queen Response"
+            "response": "Aggregated queen response.",
+            "timestamp": "2025-12-02T19:48:54.378218"
         }
     ],
     "sequential": true,
-    "randomize": false,
-    "lastModified": "2025-11-27T02:02:09.550128"
+    "randomize": true,
+    "lastModified": "2025-12-02T19:48:54.382569"
 }

@@ -6,12 +6,15 @@ import os
 import Queen
 import Bee
 import json
+import re
 
 class Hive:
     """A hive represents a chat session. Each hive has a queen bee and 0 or more worker bees"""
     def __init__(self, hiveName):
         self.hiveID = str(uuid.uuid1())
         self.hiveName = hiveName
+
+        self.top_k = 3 #fetch top 3 most relevant documents from ChromaDB
         
         self.models = []
 
@@ -19,10 +22,14 @@ class Hive:
         self.queen = Queen.Queen()
         self.history = []
         
+        self.chromaClient = None
+        
         self.sequential = True
         self.randomize = False
 
         self.lastModified = datetime.datetime.now().isoformat()
+
+        self.save()
 
     @staticmethod
     def deleteHive(id):
@@ -37,6 +44,7 @@ class Hive:
         return {
             "hiveID": self.hiveID,
             "hiveName": self.hiveName,
+            "top_k": self.top_k,
             "models": self.models,
             "bees": [bee.to_dict() for bee in self.bees],
             "queen": self.queen.to_dict(),
@@ -48,8 +56,11 @@ class Hive:
 
     @staticmethod
     def from_dict(d):
-        hive = Hive(d["hiveName"])
+        # Create instance without calling __init__ to avoid generating new ID and saving
+        hive = object.__new__(Hive)
         hive.hiveID = d["hiveID"]
+        hive.hiveName = d["hiveName"]
+        hive.top_k = d.get("top_k", 3)  # Default to 3 for backward compatibility
         hive.models = d["models"]
         hive.bees = [Bee.Bee.from_dict(bee) for bee in d["bees"]]
         hive.queen = Queen.Queen.from_dict(d["queen"])
@@ -73,6 +84,7 @@ class Hive:
 
         self.hiveID = data["hiveID"]
         self.hiveName = data["hiveName"]
+        self.top_k = data.get("top_k", 3)  # Default to 3 for backward compatibility
         self.models = data["models"]
         self.bees = [Bee.Bee.from_dict(bee) for bee in data["bees"]]
         self.queen = Queen.Queen.from_dict(data["queen"])
@@ -86,6 +98,8 @@ class Hive:
             for model in self.models:
                 if model == bee.model:
                     bee.attach_model(model)
+
+        #load history into vector store
 
 
     def add_bee(self, bee):
@@ -108,7 +122,7 @@ class Hive:
         self.save()
     
     def remove_model(self, model):
-        #warning, all bees with this model will have it detached
+        #warning, all bees and queen with this model will have it detached
         self.updateLastModified()
         self.models.remove(model)
 
@@ -116,6 +130,10 @@ class Hive:
         for bee in self.bees:
             if bee.model == model:
                 bee.detach_model()
+        
+        #detach from queen if she has this model
+        if self.queen.model == model:
+            self.queen.detach_model()
 
         self.save()
     
@@ -159,9 +177,23 @@ class Hive:
         logs = []
         bees = self.bees.copy()
 
-        context = self.queen.extractContext(prompt, self.history)
-        print(f"[Debug] {context}")
+        context = self.queen.extractContext(prompt, self.history, self.top_k)
+        # Truncate context log to avoid very large prints impacting UI responsiveness
+        if isinstance(context, str) and len(context) > 300:
+            context_preview = context[:300] + "..."
+        else:
+            context_preview = context
+        print(f"[Debug] RAG: {context_preview}")
+        
+        # Signal that context is ready - this triggers the UI to show "Thinking" animation
+        if callback:
+            callback({"name": "__context_ready__", "response": None})
+        
         print("############################## START OF DISCUSSION #######################################")
+        
+        # Signal discussion start - transitions animation from retrieval to discussion phase
+        if callback:
+            callback({"name": "__discussion_start__", "response": None})
 
         for i in range(n):
             print("\n### Round " + str(i+1) + " ###")
@@ -169,12 +201,15 @@ class Hive:
                 random.shuffle(bees)
             for bee in bees:
                 response = bee.query(prompt, context, logs, callback)
-                print(f"[Debug] {response}\n")
+                # Avoid printing full responses to keep logging lightweight
+                print(f"[Debug] {bee.name} responded.")
                 entry = {"round": i, "beeId": bee.beeId, "name": bee.name, "role": bee.role, "response": response }
                 logs.append(entry)
         print("\n############################# END OF DISCUSSION ########################################")
         aggregated_response = self.queen.aggregate_response(prompt, logs, callback)
-        print("[Debug] Queen 👑: " + aggregated_response)
+        # Keep queen log lightweight as well
+        print("[Debug] Queen 👑: response generated.")
+        
         self.updateHistory(prompt, len(bees), n, logs, aggregated_response, )
         self.updateLastModified()
         self.save()
@@ -184,7 +219,27 @@ class Hive:
         self.lastModified = datetime.datetime.now().isoformat()
     
     def updateHistory(self, prompt, nBees, nRounds, logs, response):
-        self.history.append({"prompt": prompt, "nBees": nBees, "nRounds": nRounds , "logs": logs, "response": response})
+        # Create history entry
+        history_entry = {
+            "prompt": prompt, 
+            "nBees": nBees, 
+            "nRounds": nRounds, 
+            "logs": logs, 
+            "response": response,
+            "timestamp": datetime.datetime.now().isoformat()
+        }
+        
+        # Add to history
+        self.history.append(history_entry)
+        
+        # Also add to ChromaDB for semantic search
+        try:
+            from chroma_context import context_manager
+            context_manager.add_history_entry(self.hiveID, history_entry)
+            print(f"[Debug] Added entry to ChromaDB for hive {self.hiveID}")
+        except Exception as e:
+            print(f"[Debug] Failed to add entry to ChromaDB: {e}")
+        
         print("[Debug] " + self.hiveName + " history updated")
     
     def save(self):
@@ -207,4 +262,13 @@ class Hive:
 
     def clear_history(self):
         self.history = []
+        
+        # Also clear the ChromaDB collection for this hive
+        try:
+            from chroma_context import context_manager
+            context_manager.reset_hive_collection(self.hiveID)
+            print(f"[Debug] Cleared ChromaDB collection for hive {self.hiveID}")
+        except Exception as e:
+            print(f"[Debug] Failed to clear ChromaDB collection: {e}")
+        
         self.save()
