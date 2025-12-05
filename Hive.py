@@ -14,7 +14,7 @@ class Hive:
         self.hiveID = str(uuid.uuid1())
         self.hiveName = hiveName
 
-        self.top_k = 3 #fetch top 3 most relevant documents from ChromaDB
+        self.contextWindow = 10
         
         self.models = []
 
@@ -22,7 +22,6 @@ class Hive:
         self.queen = Queen.Queen()
         self.history = []
         
-        self.chromaClient = None
         
         self.sequential = True
         self.randomize = False
@@ -44,7 +43,7 @@ class Hive:
         return {
             "hiveID": self.hiveID,
             "hiveName": self.hiveName,
-            "top_k": self.top_k,
+            "contextWindow": self.contextWindow,
             "models": self.models,
             "bees": [bee.to_dict() for bee in self.bees],
             "queen": self.queen.to_dict(),
@@ -60,7 +59,7 @@ class Hive:
         hive = object.__new__(Hive)
         hive.hiveID = d["hiveID"]
         hive.hiveName = d["hiveName"]
-        hive.top_k = d.get("top_k", 3)  # Default to 3 for backward compatibility
+        hive.contextWindow = d.get("contextWindow", 7)  # Default to 3 for backward compatibility
         hive.models = d["models"]
         hive.bees = [Bee.Bee.from_dict(bee) for bee in d["bees"]]
         hive.queen = Queen.Queen.from_dict(d["queen"])
@@ -84,7 +83,7 @@ class Hive:
 
         self.hiveID = data["hiveID"]
         self.hiveName = data["hiveName"]
-        self.top_k = data.get("top_k", 3)  # Default to 3 for backward compatibility
+        self.contextWindow = data.get("contextWindow", 7)  # Default to 7 for backward compatibility
         self.models = data["models"]
         self.bees = [Bee.Bee.from_dict(bee) for bee in data["bees"]]
         self.queen = Queen.Queen.from_dict(data["queen"])
@@ -177,7 +176,7 @@ class Hive:
         logs = []
         bees = self.bees.copy()
 
-        context = self.queen.extractContext(prompt, self.history, self.top_k)
+        context = self.queen.extractContext(prompt, self.history, self.contextWindow)
         # Truncate context log to avoid very large prints impacting UI responsiveness
         if isinstance(context, str) and len(context) > 300:
             context_preview = context[:300] + "..."
@@ -215,6 +214,8 @@ class Hive:
         self.save()
         return aggregated_response
 
+
+
     def updateLastModified(self):
         self.lastModified = datetime.datetime.now().isoformat()
     
@@ -231,15 +232,6 @@ class Hive:
         
         # Add to history
         self.history.append(history_entry)
-        
-        # Also add to ChromaDB for semantic search
-        try:
-            from chroma_context import context_manager
-            context_manager.add_history_entry(self.hiveID, history_entry)
-            print(f"[Debug] Added entry to ChromaDB for hive {self.hiveID}")
-        except Exception as e:
-            print(f"[Debug] Failed to add entry to ChromaDB: {e}")
-        
         print("[Debug] " + self.hiveName + " history updated")
     
     def save(self):
@@ -261,14 +253,5 @@ class Hive:
         print(json.dumps(self.to_dict(), indent=4))
 
     def clear_history(self):
-        self.history = []
-        
-        # Also clear the ChromaDB collection for this hive
-        try:
-            from chroma_context import context_manager
-            context_manager.reset_hive_collection(self.hiveID)
-            print(f"[Debug] Cleared ChromaDB collection for hive {self.hiveID}")
-        except Exception as e:
-            print(f"[Debug] Failed to clear ChromaDB collection: {e}")
-        
+        self.history = []        
         self.save()

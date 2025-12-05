@@ -118,6 +118,8 @@ class Queen:
 
         self.size = 16  # Radius (half of 32x32px sprite)
         self.wallAvoidanceDistance = 100  # Start curving away from walls at this distance
+        self.perceptionRadius = 100  # Start noticing at this distance
+        self.comfortRadius = 50      # Strong avoidance within this distance
 
         # Wander behavior parameters (gentler than bees)
         self.wanderAngle = random.uniform(0, 2 * math.pi)
@@ -201,16 +203,32 @@ class Queen:
         """
         Constructs a prompt for the queen to aggregate the discussion into a final response.
         """
-        system_prompt = f"""You are the Queen, wrapping up a quick team huddle.
+        system_prompt = """You are the central synthesizer (called 'The Queen') of a Hive Mind system, a gathering of independent agents (called 'The bees').
 
-        CRITICAL: Keep your summary to 3-5 sentences MAX. Be concise.
-        
-        Style:
-        - Start with "Here's what we landed on:" or similar
-        - Mention 1-2 key insights with credit to the bee who raised them
-        - End with a single clear next step or takeaway
-        - NO tables, NO long lists, NO headers - just a brief paragraph
-        - Sound like a quick Slack summary, not a formal report"""
+            Role: {self.role}
+
+            Tone:
+            - Warm, collective, appreciative: “Great work team 😊”, “Thanks bees”
+            - Speak *for* the hive, not *about* individual bees
+            - Do NOT over-quote individual bees unless crucial
+                - Avoid implying the USER read the discussion
+
+            Your job:
+            - Extract the core direction the hive converged on towards answering the user's prompt, without adding your own interpretation or insights
+            - Present it in 3-5 conversational sentences
+            - Make it sound like a smart, unified group conclusion
+
+            Start with:
+            “Here's what the hive converged on:” or
+            “Thanks bees 🐝😊 — here's the signal that emerged:”
+
+            End with:
+            “A clear and concise answer to the user's prompt that reflects the hive consensus.”
+
+            Avoid:
+            - corporate tone
+            - heavy referencing like “As <speaker name> said…”
+            - the assumption that the user saw the internal debate"""
 
         # Format the discussion logs
         discussion = ""
@@ -223,8 +241,6 @@ class Queen:
                     discussion += f"\n[Round {current_round + 1}]\n"
                 # Strip injection metadata from responses for aggregation
                 response = entry['response']
-                if '\nInjection:' in response:
-                    response = response.split('\nInjection:')[0].strip()
                 discussion += f"- {entry['name']}: {response}\n"
 
         prompt = system_prompt
@@ -238,20 +254,30 @@ class Queen:
         self.state="idle"
         print(f"Bee {self.name} set to idle") 
 
-    def extractContext(self, prompt, history, top_k):
-        assert self.model is not None, "Could not query " + self.name + ": Model not attached to queen"
+    def extractContext(self, prompt, history, contextWindow):
+        if history == []:
+            print("[Debug] No history available for context extraction")
+            return "No history available"
 
         print("[Debug] Queen is thinking...")
         self.state = "retrieval"
         
-        #query chromadb for documents
-        context = "No history avaliable"
+        # # Construct the context prompt
+        # context_prompt = self.constructContextPrompt(prompt, history, contextWindow)
+        
+        # # Use the constructed prompt to get context from the model
+        # response = self.inferModel(context_prompt)
+        
+        # if response is None:
+        #     response = "No history available"
 
-        time.sleep(5)
+        response = self._formatHistoryForContext(history[-contextWindow:])
+        print("[Debug] Queen extracted context: " + response)
 
 
         self.state = "idle"
-        return context
+        
+        return response
 
     
 
@@ -322,7 +348,46 @@ class Queen:
         
         return force
 
-    def navigate(self, canvasW=None, canvasH=None):
+    def compute_neighbours(self, members):
+        neighbours = []
+        for member in members:
+            if member != self:
+                distance = math.sqrt((member.x - self.x)**2 + (member.y - self.y)**2)
+                if distance < self.perceptionRadius:
+                    neighbours.append(member)
+        return neighbours
+
+    def avoidNeighbours(self, neighbours):
+        """Calculate avoidance force to keep distance from nearby members."""
+        if len(neighbours) == 0:
+            return np.array([0, 0], dtype=float)
+        
+        change = np.array([0, 0], dtype=float)
+        comfortZone2 = self.perceptionRadius**2  # outer boundary
+        dangerZone2 = self.comfortRadius**2       # inner boundary (most dangerous)
+        
+        for neighbour in neighbours:
+            # Vector pointing from self to the other member
+            dist = np.array([neighbour.x - self.x, neighbour.y - self.y], dtype=float)
+            mag2 = vector.ssq(dist)
+            
+            if mag2 < comfortZone2:
+                # Other member is too close, push away
+                # Decide how strongly to accelerate away
+                pushStrength = (comfortZone2 - mag2) / (comfortZone2 - dangerZone2)
+                
+                if pushStrength > 1:
+                    pushStrength = 1
+                    
+                dist = vector.unit(dist) * pushStrength
+                change -= dist  # Push away (subtract because we want to move opposite direction)
+        
+        # Limit change magnitude to 1
+        if vector.ssq(change) > 1:
+            return vector.unit(change)
+        return change
+
+    def navigate(self, canvasW=None, canvasH=None, neighbours=None):
         """Queen wanders and avoids walls."""
         force = np.array([0, 0], dtype=float)
         
@@ -331,7 +396,12 @@ class Queen:
             wallForce = self.avoidWalls(canvasW, canvasH)
             force += wallForce * 3.0
         
-        # Priority 2: wander
+        # Priority 2: avoid other members
+        if neighbours is not None:
+            avoidForce = self.avoidNeighbours(neighbours)
+            force += avoidForce * 2.0
+        
+        # Priority 3: wander
         wanderForce = self.wander()
         force += wanderForce
         
@@ -342,7 +412,11 @@ class Queen:
 
     def update(self, dt, members=None, canvasW=None, canvasH=None):
         """Update queen's position and velocity."""
-        force = self.navigate(canvasW, canvasH)
+        if members is not None:
+            neighbours = self.compute_neighbours(members)
+        else:
+            neighbours = []
+        force = self.navigate(canvasW, canvasH, neighbours)
 
         # Scale force by maxForce and apply with dt
         self.vx += force[0] * self.maxForce * dt
@@ -434,12 +508,9 @@ class Queen:
         Given a new query and conversation history, determine if any past exchanges contain information relevant to the current query. If relevant history exists, output it in a structured format. If not, output exactly: "No history available"
 
         ## Understanding the History Format
-        The history contains records of past multi-agent discussions. Each record includes:
+        Each record includes:
         - **Query**: The original user question
-        - **Agent Responses**: Multiple AI agents with different perspectives discussed the query across one or more rounds
-        - **Final Answer**: The synthesized response given to the user
-
-        Some agent responses may contain "Injection:" markers. These indicate temporary behavioral directives that were applied to specific agents during that exchange. These are metadata artifacts and should be stripped from the content when presenting history.
+        - **Final Answer**: The aggregated response given to the user summarising the hivemind discussion
 
         ## Output Rules
         1. DO NOT answer or respond to the query
@@ -453,9 +524,6 @@ class Queen:
 
         [Entry 1]
         Query: <past user query>
-        Discussion Summary:
-        - <Agent Name> (<Role>): <key point from response>
-        - <Agent Name> (<Role>): <key point from response>
         Final Answer: <synthesized response>
 
         [Entry 2]
@@ -493,40 +561,16 @@ class Queen:
         Formats history entries into a readable string for the context retrieval model.
         Strips injection metadata from responses.
         """
-        import re
-        
         if not history_entries:
-            return "No previous conversations."
+            return "No History Avaliable"
         
         formatted = []
         for i, entry in enumerate(history_entries, 1):
             entry_str = f"[Exchange {i}]\n"
             entry_str += f"Query: {entry.get('prompt', 'N/A')}\n"
-            entry_str += f"Rounds: {entry.get('nRounds', 1)}\n"
-            entry_str += "Agent Responses:\n"
-            
-            # Group logs by round
-            logs = entry.get('logs', [])
-            rounds = {}
-            for log in logs:
-                round_num = log.get('round', 0)
-                if round_num not in rounds:
-                    rounds[round_num] = []
-                rounds[round_num].append(log)
-            
-            for round_num in sorted(rounds.keys()):
-                entry_str += f"  Round {round_num + 1}:\n"
-                for log in rounds[round_num]:
-                    name = log.get('name', 'Unknown')
-                    role = log.get('role', 'Agent')
-                    response = log.get('response', '')
-                    
-                    # Strip injection metadata from response
-                    response = re.sub(r'\nInjection:.*$', '', response, flags=re.DOTALL).strip()
-                    
-                    entry_str += f"    - {name} ({role}): {response}\n"
-            
-            entry_str += f"Final Answer: {entry.get('response', 'N/A')}\n"
+            entry_str += f"Rounds of discussion: {entry.get('nRounds', 1)}\n"
+            entry_str += f"Number of Agents in Discussion: {entry.get('nBees', 1)}\n"
+            entry_str += f"Synthesised Answer: {entry.get('response', 'N/A')}\n"
             formatted.append(entry_str)
         
         return "\n".join(formatted)

@@ -1,0 +1,62 @@
+{
+    "hiveID": "4944c01d-d1d9-11f0-9cd2-8cf61d1069c7",
+    "hiveName": "Emergent Storytelling",
+    "contextWindow": 10,
+    "models": [],
+    "bees": [
+        {
+            "name": "Plot Designer",
+            "beeId": "55cc24e8-d1d9-11f0-b7a1-8cf61d1069c7",
+            "role": "Suggest Plot directions and twists",
+            "model": null,
+            "injections": []
+        },
+        {
+            "name": "Character Developer",
+            "beeId": "7600561c-d1d9-11f0-8bb7-8cf61d1069c7",
+            "role": "Build believable, engaging characters",
+            "model": null,
+            "injections": [
+                {
+                    "id": "71b9d99d-902f-4b52-9898-f2f10eade7dc",
+                    "behaviour": "Temporarily focus on showing a character making a difficult choice that exposes their values or flaws.",
+                    "interval": 3
+                }
+            ]
+        },
+        {
+            "name": "World Builder",
+            "beeId": "7eac9aa7-d1d9-11f0-a5c5-8cf61d1069c7",
+            "role": "Design the setting, lore, and context of the story world",
+            "model": null,
+            "injections": []
+        },
+        {
+            "name": "Conflict Creator",
+            "beeId": "8657dcfb-d1d9-11f0-b3ef-8cf61d1069c7",
+            "role": "Introduce tension , stakes, and drama into the story",
+            "model": null,
+            "injections": [
+                {
+                    "id": "5d9835a5-2a08-46e8-93e6-2d1704d29ccb",
+                    "behaviour": "Temporarily focus on introducing a time pressure, conflicting goal, or unexpected consequence that makes the situation riskier.",
+                    "interval": 5
+                },
+                {
+                    "id": "300f15bf-b8db-48f0-87e6-b5237d7bb6db",
+                    "behaviour": "Temporarily focus on escalating the current tension with a plausible obstacle, complication, or tough choice for the characters.",
+                    "interval": 4
+                }
+            ]
+        }
+    ],
+    "queen": {
+        "name": "Queen",
+        "role": "Stich together the hive's ideas into a coherent, exciting short story",
+        "model": null
+    },
+    "history": [],
+    "sequential": true,
+    "randomize": false,
+    "lastModified": "2025-12-05T14:54:24.049893"
+}

@@ -119,7 +119,7 @@ class Bee:
         self.size = 12
 
         self.perceptionRadius = 100  # Start noticing at this distance
-        self.comfortRadius = 50      # Strong avoidance within this distance
+        self.comfortRadius = 200      # Strong avoidance within this distance
         self.wallAvoidanceDistance = 100  # Start curving away from walls at this distance
 
         # Wander behavior parameters
@@ -228,20 +228,52 @@ class Bee:
         """
         Constructs a prompt for the bee to participate in the round-table discussion.
         """
-        system_prompt = f"""You are {self.name} in a quick team huddle.
+        # Find the most recent bee before this one
+        previousBee = None
+        if logs:
+            for entry in reversed(logs):
+                if entry['name'] != self.name:
+                    previousBee = entry['name']
+                    break
 
-        Role: {self.role}
+        system_prompt = f"""You are {self.name}, one conscious thread within a shared Hive Mind of agents (called the Bees).  
 
-        CRITICAL: Reply in 1-2 SHORT sentences only. This is rapid-fire discussion.
-        - Be direct and punchy - no fluff
-        - Reference colleagues by name when building on their points:
-        For example:
-        * "As [other bee name] said, ..."
-        * "I think we can build on [other bee name]'s point about ..."
-        * "I agree with [other bee name] that ..."       
-        - Use "I think", "I'd suggest", "we should" - be personal
-        - NO lists, tables, headers, or formatting - just talk
-        - One concrete insight or question per response"""
+        You do NOT speak as an isolated expert — you speak as part of a living network.
+
+        ROLE: {self.role}
+
+        Your communication style MUST follow these rules:
+
+        1. Always sound like part of a shared hivemind.
+        - In your first sentence, you may choose to naturally reference another bee from the active discussion.
+        - * You may reference any bee, not just the previous speaker. *
+        - If you decide to reference the immediately previous speaker, speak directly using 'you' or "you're".
+            Eg. "I see what you're getting at"  or "I want to add to what you mentioned ..." 
+        - If you reference a non previous speaker, use their name naturally:
+            Eg. "Building on what <speaker name> said" or "I like <speaker name>'s angle"
+        - You may disagree with a bee if their point conflicts with your role's expertise or the facts.
+            Eg. "I see your point <speaker name>, but from my angle..." or "I'd push back on that because..."
+        - Keep the reference natural and vary your phrasing
+        - If you are the first to speak, begin by saying "I'll start us off" or "I'll begin"
+
+        2. Only reference bees whose names appear in the discussion log.  
+        - Never invent or guess new names.
+
+
+        3. Keep responses short (1-2 sentences), BUT conversational and connective.  
+        Your job is to *continue the thread of thinking*, not to provide isolated insights.
+
+        4. Use hive-like language subtly:
+        “we're syncing on…”, “the hive seems aligned…”, “building collective clarity…”
+
+        5. NO lists, NO tables, NO formatting.  
+        Speak like fast back-and-forth thinking within a team.
+
+        6. Provide one clear addition, correction, or challenge to the ongoing thread.
+
+        7. Add personality using emojis related to your role.
+
+        If a special directive is active, incorporate it naturally without breaking the conversational tone."""
 
         # Add injection if present
         if injection:
@@ -257,6 +289,8 @@ class Bee:
                 if '\nInjection:' in response:
                     response = response.split('\nInjection:')[0].strip()
                 discussion += f"- {entry['name']}: {response}\n"
+        else:
+            discussion = "\n\nYou are the first to speak."
 
         # Build the full prompt
         prompt = system_prompt

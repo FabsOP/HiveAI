@@ -4,10 +4,10 @@ from nicegui import language, ui, app, run
 import os
 import Hive
 import Bee
-import Queen
 import time
 import json
 import asyncio
+import ui_utils
 
 ####### APP CONFIGURATIONS ##############################################
 title='HiveAI - A Hivemind of LLMs'
@@ -198,7 +198,7 @@ def render_discussion_content(entry, is_in_progress):
             # Show thinking animation for current round if not all bees have responded
             if round_idx == current_round_idx and len(round_data["messages"]) < nBees:
                 with ui.column().classes('w-full justify-start mb-2'):
-                    with ui.column().classes('bg-zinc-600 text-gray-400 px-3 py-1 rounded-2xl rounded-bl-sm max-w-[80%] gap-0'):
+                    with ui.column().classes('bg-zinc-600 text-gray-400 px-3 py-1 rounded-2xl rounded-bl-sm max-w-[90%] gap-0'):
                         ui.label('Thinking').classes('text-xs font-bold uppercase loading-dots')
 
     else:
@@ -223,7 +223,7 @@ def render_discussion_content(entry, is_in_progress):
                     
                     with ui.column().classes('w-full justify-start mb-2'):
                         bee_color = generate_bee_color(msg['name'])
-                        with ui.column().classes('bg-zinc-700 text-white px-3 py-1 rounded-2xl rounded-bl-sm max-w-[80%] gap-0'):
+                        with ui.column().classes('bg-zinc-700 text-white px-3 py-1 rounded-2xl rounded-bl-sm max-w-[90%] gap-0'):
                             ui.label(msg['name'].upper()).classes('text-xs font-bold uppercase pt-1').style(f'color: {bee_color};')
                             ui.markdown(response_text).classes('text-xs leading-tight p-2')
                             if injection_text:
@@ -233,7 +233,7 @@ def render_queen_response(entry, is_in_progress):
     """Render queen response or synthesizing indicator"""
     if entry.get("queen"):
         with ui.row().classes('w-full justify-start mb-6'):
-            with ui.column().classes('bg-zinc-800 text-white px-4 py-2 rounded-2xl rounded-bl-sm max-w-[80%] gap-1'):
+            with ui.column().classes('bg-zinc-800 text-white px-4 py-2 rounded-2xl rounded-bl-sm max-w-[90%] gap-1'):
                 ui.label('Queen').classes('text-gray-400 text-xs font-bold uppercase')
                 ui.markdown(entry["queen"]).classes('text-sm leading-tight [&_h1]:text-base [&_h2]:text-sm [&_h3]:text-sm [&_h4]:text-sm [&_h5]:text-sm [&_h6]:text-sm [&_table]:text-xs [&_th]:p-1 [&_td]:p-1 [&_pre]:text-xs [&_code]:text-xs')
     elif not entry.get("complete", False) and entry.get("discussion") and is_in_progress:
@@ -244,7 +244,7 @@ def render_queen_response(entry, is_in_progress):
         
         if actual_responses >= total_expected:
             with ui.row().classes('w-full justify-start mb-6'):
-                with ui.column().classes('bg-zinc-700 text-gray-400 px-4 py-2 rounded-2xl rounded-bl-sm max-w-[80%] gap-1'):
+                with ui.column().classes('bg-zinc-700 text-gray-400 px-4 py-2 rounded-2xl rounded-bl-sm max-w-[90%] gap-1'):
                     ui.label('Queen').classes('text-gray-500 text-xs font-bold uppercase')
                     ui.label('Synthesizing').classes('leading-relaxed loading-dots')
 
@@ -286,9 +286,7 @@ def render_active_entry():
     
     # User message
     with ui.row().classes('w-full justify-end mb-2'):
-        ui.label(entry["user"]).classes(
-            'bg-amber-600 text-white px-4 py-2 rounded-2xl rounded-br-sm max-w-[80%]'
-        )
+        ui.label(entry["user"]).classes('bg-amber-600 text-white px-4 py-2 rounded-2xl rounded-br-sm max-w-[90%]')
     
     # Show context fetching animation if context is not ready yet
     if not entry.get("context_ready", False):
@@ -539,7 +537,7 @@ async def sendQuery(query_text, rounds):
             chat_scroll_area.scroll_to(pixels=999999)
 
         # Reset animation state after short delay to show final state
-        await asyncio.sleep(1.0)
+        await asyncio.sleep(2.0)
         animation_state = {
             "phase": "idle",
             "bee_order": [],
@@ -582,100 +580,7 @@ def onDropdownSelection(e):
 ##################### UI DESIGN #########################################################
 # Add custom font
 ui.add_head_html('<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">')
-ui.add_head_html('''
-<style>
-    .no-stepper input[type=number]::-webkit-inner-spin-button, 
-    .no-stepper input[type=number]::-webkit-outer-spin-button { 
-        -webkit-appearance: none; 
-        margin: 0; 
-    }
-    .no-stepper input[type=number] {
-        -moz-appearance: textfield;
-    }
-    .white-text-select .q-field__native,
-    .white-text-select .q-field__prefix,
-    .white-text-select .q-field__suffix,
-    .white-text-select .q-field__input,
-    .white-text-select .q-field__append,
-    .white-text-select .q-icon {
-        color: white !important;
-    }
-    .text-brand-yellow {
-        color: #FFC30B !important;
-    }
-    /* Loading dots animation */
-    .loading-dots::after {
-        content: '';
-        animation: dots 1.5s steps(4, end) infinite;
-    }
-    @keyframes dots {
-        0%, 20% { content: ''; }
-        40% { content: '.'; }
-        60% { content: '..'; }
-        80%, 100% { content: '...'; }
-    }
-    /* Pulse animation for assembling bees */
-    .animate-pulse {
-        animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-    }
-    @keyframes pulse {
-        0%, 100% { opacity: 1; transform: scale(1); }
-        50% { opacity: 0.6; transform: scale(1.1); }
-    }
-    /* Fix drawer styling */
-    .q-drawer--right .q-drawer__content {
-        border-left: none !important;
-    }
-    .q-drawer-container {
-        position: absolute !important;
-    }
-    .q-drawer__backdrop {
-        background: transparent !important;
-    }
-    /* Fixed height textarea */
-    .fixed-textarea .q-field__control {
-        min-height: 60px !important;
-        max-height: 80px !important;
-    }
-    /* Drawer scrollbar to match chat */
-    .drawer-scroll::-webkit-scrollbar {
-        width: 6px;
-    }
-    .drawer-scroll::-webkit-scrollbar-track {
-        background: transparent;
-    }
-    .drawer-scroll::-webkit-scrollbar-thumb {
-        background: #3f3f46;
-        border-radius: 3px;
-    }
-    .drawer-scroll::-webkit-scrollbar-thumb:hover {
-        background: #52525b;
-    }
-    /* Hide horizontal scroll in expansions */
-    .q-expansion-item__content {
-        overflow-x: hidden !important;
-    }
-    /* Drawer border styling */
-    .q-drawer--right {
-        border-left: 5px solid #27272A !important;
-        border-bottom: 5px solid #27272A !important;
-    }
-    /* Fix dialog styling */
-    .q-dialog {
-        background: transparent !important;
-    }
-    .q-dialog .q-card {
-        background: #18181b !important;
-        color: white !important;
-        border: 1px solid #27272a !important;
-    }
-    .q-dialog .q-card .text-brand-yellow {
-        color: #FFC30B !important;
-    }
-    overflow-x: hidden !important;
-}
-</style>
-''')
+ui.add_head_html(ui_utils.STYLES)
 
 #### SET BODY COLOR
 ui.query('body').style('background-color: #1F1F1F; font-family: Inter, sans-serif; overflow: hidden; zoom: 0.9')
@@ -801,8 +706,8 @@ with ui.dialog() as edit_bee_dialog, ui.card().classes('bg-zinc-900 text-white m
             name_input.on('blur', lambda: (bee.set_name(name_input.value), selectedHive.save(), render_drawer_content.refresh()))
             
             # Personality
-            ui.label('Personality Description').classes('text-zinc-500 text-xs mb-1')
-            role_input = ui.textarea(value=bee.role, placeholder='Describe personality...').props('outlined dark autogrow color="amber"').classes('w-full text-white mb-3')
+            ui.label('Role Description').classes('text-zinc-500 text-xs mb-1')
+            role_input = ui.textarea(value=bee.role, placeholder='Describe role/personality...').props('outlined dark autogrow color="amber"').classes('w-full text-white mb-3')
             role_input.on('blur', lambda: (bee.set_role(role_input.value), selectedHive.save(), render_drawer_content.refresh()))
             
             # Model
@@ -876,13 +781,13 @@ with ui.dialog() as add_bee_dialog, ui.card().classes('bg-zinc-900 text-white mi
         ui.button('Create', on_click=create_bee).props('flat color="amber"')
 
 # ===== DRAWER =====
-with ui.right_drawer(value=False, fixed=False, bordered=False).classes('bg-zinc-900').style('width: 320px;') as manage_drawer:
+with ui.right_drawer(value=False, fixed=False, bordered=False).classes('bg-zinc-900 bg-gradient-to-b from-amber-500/10 via-zinc-900 to-zinc-900').style('width: 320px;') as manage_drawer:
   with ui.column().classes('w-full h-full p-4 overflow-y-auto overflow-x-hidden drawer-scroll gap-3'):
     
-    ui.label('Manage Hive').classes('text-white text-lg font-semibold mb-2')
+    ui.label('Manage Hive').classes('text-brand-yellow text-lg font-semibold mb-2')
     
     # Randomize Bee Order Toggle
-    with ui.card().classes('w-full bg-zinc-800/50 p-3').props('flat bordered'):
+    with ui.card().classes('w-full bg-zinc-800/50 p-3 rounded-lg').props('flat bordered'):
         with ui.row().classes('w-full items-center justify-between'):
             ui.label('Randomize Bee Order').classes('text-zinc-400 text-xs font-medium uppercase tracking-wide')
             def toggle_randomize(e):
@@ -895,7 +800,7 @@ with ui.right_drawer(value=False, fixed=False, bordered=False).classes('bg-zinc-
                 ui.switch(value=selectedHive.randomize if selectedHive else False, on_change=toggle_randomize).props('dense color="amber"')
             
             render_randomize_switch()
-        ui.label('Toggle to give different bees a chance to start the conversation. Or leave off for ordered bee pipelines.').classes('text-zinc-500 text-xs italic mt-2')
+        ui.label('Toggle to give different bees a chance to start the conversation.').classes('text-zinc-500 text-xs italic mt-2')
     
     @ui.refreshable
     def render_drawer_content():
@@ -904,7 +809,7 @@ with ui.right_drawer(value=False, fixed=False, bordered=False).classes('bg-zinc-
             return
         
         # Models Section
-        with ui.card().classes('w-full bg-zinc-800/50 p-3').props('flat bordered'):
+        with ui.card().classes('w-full bg-zinc-800/50 p-3 rounded-lg').props('flat bordered'):
             with ui.row().classes('w-full items-center justify-between'):
                 ui.label('Models').classes('text-zinc-400 text-xs font-medium uppercase tracking-wide')
                 def open_models():
@@ -917,20 +822,19 @@ with ui.right_drawer(value=False, fixed=False, bordered=False).classes('bg-zinc-
                 ui.label('None configured').classes('text-zinc-500 text-xs italic mt-1')
         
         # Queen Section
-        with ui.card().classes('w-full bg-zinc-800/50 p-3').props('flat bordered'):
+        with ui.card().classes('w-full bg-zinc-800/50 p-3 rounded-lg').props('flat bordered'):
             with ui.row().classes('w-full items-center justify-between'):
                 ui.label('Queen').classes('text-zinc-400 text-xs font-medium uppercase tracking-wide')
                 def open_queen():
                     render_queen_edit.refresh()
                     edit_queen_dialog.open()
                 ui.button(icon='edit', on_click=open_queen).props('flat dense round size="xs"').classes('text-amber-400')
-            role_preview = selectedHive.queen.role[:35] + '...' if len(selectedHive.queen.role) > 35 else selectedHive.queen.role
-            ui.label(role_preview or 'No role set').classes('text-zinc-300 text-sm mt-1')
-            model_name = selectedHive.queen.model.split('/')[-1] if selectedHive.queen.model else 'Not attached'
-            ui.label(f"Model: {model_name}").classes('text-zinc-500 text-xs')
+            ui.label(selectedHive.queen.role or 'No role set').classes('text-zinc-300 text-xs mt-1')
+            queen_model_label = selectedHive.queen.model or 'Not attached'
+            ui.label(f"Model: {queen_model_label}").classes('text-zinc-500 text-xs break-all')
         
         # Bees Section
-        with ui.card().classes('w-full bg-zinc-800/50 p-3').props('flat bordered'):
+        with ui.card().classes('w-full bg-zinc-800/50 p-3 rounded-lg').props('flat bordered'):
             with ui.row().classes('w-full items-center justify-between'):
                 ui.label('Bees').classes('text-zinc-400 text-xs font-medium uppercase tracking-wide')
                 ui.button(icon='add', on_click=add_bee_dialog.open).props('flat dense round size="xs"').classes('text-amber-400').tooltip('Add Bee')
@@ -939,10 +843,15 @@ with ui.right_drawer(value=False, fixed=False, bordered=False).classes('bg-zinc-
                 for bee in selectedHive.bees:
                     with ui.row().classes('w-full items-center justify-between py-1 border-b border-zinc-700/50'):
                         with ui.column().classes('gap-0 flex-grow overflow-hidden'):
-                            ui.label(bee.name).classes('text-zinc-300 text-sm truncate')
-                            inj_count = len(bee.injections) if bee.injections else 0
-                            model_short = bee.model.split('/')[-1][:15] if bee.model else 'No model'
-                            ui.label(f"{model_short} | {inj_count} inj").classes('text-zinc-500 text-xs')
+                            ui.label(bee.name).classes('text-zinc-100 text-sm truncate')
+                            ui.label(bee.role or 'No role set').classes('text-zinc-300 text-xs mt-0.5')
+                            bee_model_label = bee.model or 'No model'
+                            ui.label(f"Model: {bee_model_label}").classes('text-zinc-400 text-xs break-all')
+                            if bee.injections:
+                                for inj in bee.injections:
+                                    ui.label(f"Injection: {inj['behaviour']} (1/{inj['interval']})").classes('text-zinc-500 text-[11px] break-all')
+                            else:
+                                ui.label('No injections').classes('text-zinc-600 text-[11px]')
                         def open_bee(b=bee):
                             edit_bee_target['bee'] = b
                             render_bee_edit.refresh()
@@ -966,7 +875,7 @@ def open_manage_drawer():
 with ui.row().classes('w-full h-screen no-wrap gap-4 p-8 items-stretch') as row:
     ###### CANVAS 
     with ui.column().classes('flex-none p-0 relative').style('height: calc(100vh - 4rem); width: calc(100vh - 4rem);'):
-        ui.html('<canvas id="myCanvas"></canvas>', sanitize=False).style('width: 100%; height: 100%; background-color: #FFC30B; border-radius: 8px;')
+        ui.html('<canvas id="myCanvas"></canvas>', sanitize=False).style('width: 100%; height: 100%; background-color: #FFC30B; border-radius: 8px; border: 4px solid #FFC30B; background-image: url(/icons/bgSquare.png); background-size: cover; background-position: center; background-repeat: no-repeat;')
         # Hive Management Button on canvas corner
         ui.button(icon='img:./icons/favicon.ico', on_click=open_manage_drawer).props('flat round dense').classes('w-10 h-10 absolute top-2 right-2 opacity-60 hover:opacity-100').tooltip('Manage Hive')
 
@@ -1019,7 +928,7 @@ with ui.row().classes('w-full h-screen no-wrap gap-4 p-8 items-stretch') as row:
             ui.button(icon='add', on_click=create_hive_dialog.open).props('flat round dense color="white"').tooltip('Create New Hive')
             
         # Middle: Scrollable Chat Pane
-        with ui.scroll_area().classes('w-full flex-grow bg-zinc-800/30 rounded-lg p-1') as chat_scroll_area:
+        with ui.scroll_area().classes('w-full flex-grow bg-zinc-800/30 rounded-lg p-1').style('zoom: 0.8') as chat_scroll_area:
             # Chat messages - completed entries
             render_chat()
             # Active entry (in-progress queries) - only this gets refreshed during queries
@@ -1034,12 +943,12 @@ with ui.row().classes('w-full h-screen no-wrap gap-4 p-8 items-stretch') as row:
             # Message Input
             query_input = ui.textarea(placeholder='Type your message...') \
                 .props('autogrow rows=1 max-rows=5 outlined rounded dense dark color="brand-yellow"') \
-                .classes('flex-grow text-white')
+                .classes('flex-grow text-white chat-input')
             
             # Rounds Input
-            rounds_input = ui.number(value=1, min=1, max=10, format='%.0f') \
+            rounds_input = ui.number(value=1, min=1, max=5, format='%.0f') \
                 .props('dense outlined rounded dark color="brand-yellow"') \
-                .classes('w-16 text-white no-stepper') \
+                .classes('w-16 text-white no-stepper chat-input') \
                 .tooltip('Number of rounds')
             
             # Default to 1 if empty on blur
@@ -1082,429 +991,7 @@ async def updateCanvasDimensions():
 ui.timer(0.1, updateCanvasDimensions, once=True)
 
 # Add JavaScript rendering code
-ui.add_body_html('''
-<script>
-// Sprite loading with GIF support
-let beeSprite = null;
-let queenSprite = null;
-let imagesLoaded = 0;
-let beeIsGif = false;
-let queenIsGif = false;
-
-// Store DOM elements for each bee GIF
-let beeGifElements = new Map(); // Map beeId -> DOM element
-
-// ================= LINK MANAGER CLASS =================
-class LinkManager {
-    constructor() {
-        this.links = new Map(); // key: "fromId->toId", value: Link object
-        this.pendingLinks = []; // Links queued to fade in sequentially
-        this.fadeInDelay = 200; // ms between sequential link appearances
-        this.fadeInDuration = 300; // ms for fade-in animation
-        this.lastPhase = "idle";
-        this.lastLinkCount = 0;
-    }
-    
-    // Create a unique key for a link
-    getLinkKey(fromId, toId) {
-        return `${fromId}->${toId}`;
-    }
-    
-    // Update links based on new animation state
-    updateFromState(animState, beePositions) {
-        const currentPhase = animState.phase;
-        const targetLinks = animState.links || [];
-        
-        // Detect phase transition - clear all links
-        if (currentPhase !== this.lastPhase) {
-            if (this.lastPhase !== "idle" && currentPhase !== this.lastPhase) {
-                // Phase changed, fade out all existing links
-                this.fadeOutAll(currentPhase === "aggregation" ? 200 : this.fadeInDuration); // Faster fade for aggregation
-            }
-            this.lastPhase = currentPhase;
-        }
-        
-        // Build set of target link keys
-        const targetKeys = new Set();
-        for (const link of targetLinks) {
-            const key = this.getLinkKey(link.from, link.to);
-            targetKeys.add(key);
-            
-            // Add link if it doesn't exist
-            if (!this.links.has(key)) {
-                this.addLink(link.from, link.to, link.type, beePositions);
-            }
-        }
-        
-        // Remove links that are no longer in target
-        for (const [key, link] of this.links) {
-            if (!targetKeys.has(key) && link.opacity > 0) {
-                link.fadeOut = true;
-            }
-        }
-        
-        this.lastLinkCount = targetLinks.length;
-        
-        // Update positions for all links
-        this.updatePositions(beePositions);
-    }
-    
-    addLink(fromId, toId, type, beePositions) {
-        const key = this.getLinkKey(fromId, toId);
-        if (this.links.has(key)) return;
-        
-        const link = {
-            fromId: fromId,
-            toId: toId,
-            type: type,
-            opacity: 0,
-            targetOpacity: 1,
-            fadeOut: false,
-            createdAt: Date.now(),
-            fromPos: { x: 0, y: 0 },
-            toPos: { x: 0, y: 0 }
-        };
-        
-        this.links.set(key, link);
-        this.updateLinkPosition(link, beePositions);
-    }
-    
-    updatePositions(beePositions) {
-        // Only update positions for visible links to reduce computation
-        for (const [key, link] of this.links) {
-            if (link.opacity > 0) {
-                this.updateLinkPosition(link, beePositions);
-            }
-        }
-    }
-    
-    updateLinkPosition(link, beePositions) {
-        // Cache position calculations to avoid redundant lookups
-        if (!link._lastBeePositions || link._lastBeePositions !== beePositions) {
-            const fromPos = this.getEntityPosition(link.fromId, beePositions);
-            const toPos = this.getEntityPosition(link.toId, beePositions);
-            
-            if (fromPos) link.fromPos = fromPos;
-            if (toPos) link.toPos = toPos;
-            
-            // Cache bee positions reference to avoid recalculation
-            link._lastBeePositions = beePositions;
-        }
-    }
-    
-    getEntityPosition(entityId, beePositions) {
-        // Handle Queen specially
-        if (entityId === "Queen") {
-            for (const [id, bee] of Object.entries(beePositions)) {
-                if (bee.name === "Queen") {
-                    return { x: bee.x, y: bee.y };
-                }
-            }
-        }
-        
-        // Find bee by ID
-        if (beePositions[entityId]) {
-            return { x: beePositions[entityId].x, y: beePositions[entityId].y };
-        }
-        
-        return null;
-    }
-    
-    fadeOutAll(duration = this.fadeInDuration) {
-        for (const [key, link] of this.links) {
-            link.fadeOut = true;
-            link.fadeOutDuration = duration; // Custom fade duration
-        }
-    }
-    
-    update(dt) {
-        const toRemove = [];
-        
-        for (const [key, link] of this.links) {
-            if (link.fadeOut) {
-                // Fade out using custom duration if set
-                const fadeDuration = link.fadeOutDuration || this.fadeInDuration;
-                link.opacity -= dt / (fadeDuration / 1000);
-                if (link.opacity <= 0) {
-                    toRemove.push(key);
-                }
-            } else {
-                // Fade in
-                link.opacity += dt / (this.fadeInDuration / 1000);
-                if (link.opacity > link.targetOpacity) {
-                    link.opacity = link.targetOpacity;
-                }
-            }
-        }
-        
-        // Remove fully faded out links
-        for (const key of toRemove) {
-            this.links.delete(key);
-        }
-    }
-    
-    render(ctx) {
-        for (const [key, link] of this.links) {
-            if (link.opacity <= 0) continue;
-            
-            this.drawLink(ctx, link);
-        }
-    }
-    
-    drawLink(ctx, link) {
-        const { fromPos, toPos, type, opacity } = link;
-        
-        if (!fromPos || !toPos) return;
-        
-        ctx.save();
-        ctx.globalAlpha = opacity;
-        
-        // Set color based on link type
-        let color;
-        let lineWidth = 2;
-        switch (type) {
-            case 'discussion':
-                color = '#F9FAFB'; // Blue for discussion
-                lineWidth = 2;
-                break;
-            case 'aggregation':
-                color = '#4ADE80'; // Green for aggregation
-                lineWidth = 3;
-                break;
-            default:
-                color = '#FFFFFF';
-        }
-        
-        ctx.strokeStyle = color;
-        ctx.lineWidth = lineWidth;
-        ctx.lineCap = 'round';
-        
-        // Draw curved line (no shadow on full curve for performance)
-        const dx = toPos.x - fromPos.x;
-        const dy = toPos.y - fromPos.y;
-        const dist = Math.sqrt(dx * dx + dy * dy);
-        
-        // Control point for curve (perpendicular offset)
-        const midX = (fromPos.x + toPos.x) / 2;
-        const midY = (fromPos.y + toPos.y) / 2;
-        const perpX = -dy / dist * (dist * 0.15);
-        const perpY = dx / dist * (dist * 0.15);
-        const ctrlX = midX + perpX;
-        const ctrlY = midY + perpY;
-        
-        ctx.beginPath();
-        ctx.moveTo(fromPos.x, fromPos.y);
-        ctx.quadraticCurveTo(ctrlX, ctrlY, toPos.x, toPos.y);
-        ctx.stroke();
-        
-        // Draw arrow head at end with glow
-        const arrowSize = 8;
-        const angle = Math.atan2(toPos.y - ctrlY, toPos.x - ctrlX);
-        
-        ctx.fillStyle = color;
-        ctx.shadowColor = color;
-        ctx.shadowBlur = 8 * opacity;  
-        ctx.beginPath();
-        ctx.moveTo(toPos.x, toPos.y);
-        ctx.lineTo(
-            toPos.x - arrowSize * Math.cos(angle - Math.PI / 6),
-            toPos.y - arrowSize * Math.sin(angle - Math.PI / 6)
-        );
-        ctx.lineTo(
-            toPos.x - arrowSize * Math.cos(angle + Math.PI / 6),
-            toPos.y - arrowSize * Math.sin(angle + Math.PI / 6)
-        );
-        ctx.closePath();
-        ctx.fill();
-        
-        ctx.restore();
-    }
-    
-    clear() {
-        this.links.clear();
-        this.pendingLinks = [];
-    }
-}
-
-// Global link manager instance
-const linkManager = new LinkManager();
-let lastFrameTime = Date.now();
-
-// Load bee sprite
-function loadSprite(type, src) {
-    const isGif = src.toLowerCase().endsWith('.gif');
-    
-    if (isGif) {
-        const img = new Image();
-        img.onload = () => {
-            imagesLoaded++;
-            if (type === 'bee') {
-                beeSprite = img;
-                beeIsGif = true;
-            } else {
-                queenSprite = img;
-                queenIsGif = true;
-            }
-        };
-        img.onerror = () => console.error(`Failed to load ${type} GIF from ${src}`);
-        img.src = src;
-    } else {
-        const img = new Image();
-        img.onload = () => {
-            imagesLoaded++;
-            if (type === 'bee') {
-                beeSprite = img;
-                beeIsGif = false;
-            } else {
-                queenSprite = img;
-                queenIsGif = false;
-            }
-        };
-        img.onerror = () => console.error(`Failed to load ${type} static image from ${src}`);
-        img.src = src;
-    }
-}
-
-// Create or update a DOM element for a bee GIF
-function getOrCreateBeeGifElement(beeId, src) {
-    let element = beeGifElements.get(beeId);
-    
-    if (!element) {
-        element = document.createElement('img');
-        element.style.position = 'absolute';
-        element.style.pointerEvents = 'none';
-        element.style.display = 'none';
-        element.style.zIndex = '1000';
-        document.body.appendChild(element);
-        element.src = src;
-        beeGifElements.set(beeId, element);
-    }
-    
-    return element;
-}
-
-loadSprite('bee', './icons/bee.gif');
-loadSprite('queen', './icons/queen.png');
-
-function renderBees(data) {
-    if (imagesLoaded < 2) return;
-    
-    const canvas = document.getElementById('myCanvas');
-    if (!canvas) return;
-    
-    const ctx = canvas.getContext('2d');
-    
-    // Calculate delta time for animations
-    const now = Date.now();
-    const dt = (now - lastFrameTime) / 1000;
-    lastFrameTime = now;
-    
-    // Extract bee states and animation state from data
-    const beeStates = data.bees || data;
-    const animState = data.animation || { phase: "idle", links: [] };
-    
-    // Clear canvas
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    
-    // Hide all existing bee GIF elements
-    beeGifElements.forEach(element => {
-        element.style.display = 'none';
-    });
-    
-    // Get canvas position for GIF positioning
-    const canvasRect = canvas.getBoundingClientRect();
-    
-    // Update link manager with current animation state
-    linkManager.updateFromState(animState, beeStates);
-    linkManager.update(dt);
-    
-    // Render links first (behind bees)
-    linkManager.render(ctx);
-    
-    // Render each bee
-    for (const [id, bee] of Object.entries(beeStates)) {
-        const isQueen = bee.name === "Queen";
-        const sprite = isQueen ? queenSprite : beeSprite;
-        const isGif = isQueen ? queenIsGif : beeIsGif;
-        
-        if (!sprite) continue;
-        
-        const angle = Math.atan2(bee.vy, bee.vx);
-
-        // Base sprite size
-        const baseSize = bee.size * 2;
-
-        // Apply sinusoidal pulsing
-        let scale = 1.0;
-        const lastLink = animState.links && animState.links.length > 0 ? animState.links[animState.links.length - 1] : null;
-        
-        if (bee.name === "Queen" && animState.phase === "retrieval") {
-            // Queen pulses during retrieval
-            const t = now / 1000;
-            const amp = 0.1;
-            const freq = 5.0;
-            let phase = 0;
-            for (let i = 0; i < id.length; i++) {
-                phase += id.charCodeAt(i);
-            }
-            phase = (phase % 100) / 100 * Math.PI * 2;
-            scale = 1 + amp * Math.sin(t * freq + phase);
-        } else if (animState.phase === "discussion") {
-            if (lastLink && id === lastLink.to) {
-                // Last linked bee pulses
-                const t = now / 1000;
-                const amp = 0.1;
-                const freq = 5.0;
-                let phase = 0;
-                for (let i = 0; i < id.length; i++) {
-                    phase += id.charCodeAt(i);
-                }
-                phase = (phase % 100) / 100 * Math.PI * 2;
-                scale = 1 + amp * Math.sin(t * freq + phase);
-            } else if (!lastLink && bee.state === "thinking") {
-                // First bee in discussion pulses when no links exist yet
-                const t = now / 1000;
-                const amp = 0.1;
-                const freq = 5.0;
-                let phase = 0;
-                for (let i = 0; i < id.length; i++) {
-                    phase += id.charCodeAt(i);
-                }
-                phase = (phase % 100) / 100 * Math.PI * 2;
-                scale = 1 + amp * Math.sin(t * freq + phase);
-            }
-        }
-
-        const imgSize = baseSize * scale;
-        
-        if (isGif && !isQueen) {
-            const beeElement = getOrCreateBeeGifElement(id, './icons/bee.gif');
-            beeElement.style.display = 'block';
-            beeElement.style.width = imgSize + 'px';
-            beeElement.style.height = imgSize + 'px';
-            beeElement.style.left = (canvasRect.left + bee.x - imgSize/2) + 'px';
-            beeElement.style.top = (canvasRect.top + bee.y - imgSize/2) + 'px';
-            beeElement.style.transform = `rotate(${angle}rad)`;
-            beeElement.style.transformOrigin = 'center';
-        } else if (isGif && isQueen) {
-            sprite.style.display = 'block';
-            sprite.style.width = imgSize + 'px';
-            sprite.style.height = imgSize + 'px';
-            sprite.style.left = (canvasRect.left + bee.x - imgSize/2) + 'px';
-            sprite.style.top = (canvasRect.top + bee.y - imgSize/2) + 'px';
-            sprite.style.transform = `rotate(${angle}rad)`;
-            sprite.style.transformOrigin = 'center';
-        } else {
-            ctx.save();
-            ctx.translate(bee.x, bee.y);
-            ctx.rotate(angle);
-            ctx.drawImage(sprite, -imgSize/2, -imgSize/2, imgSize, imgSize);
-            ctx.restore();
-        }
-    }
-}
-</script>
-''')
+ui.add_body_html(ui_utils.CANVAS_JS)
 
 # Global state for dirty flag system
 last_sent_data = None
