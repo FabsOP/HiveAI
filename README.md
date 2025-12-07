@@ -4,7 +4,7 @@ A revolutionary, fully private multi-agent LLM system powered by [Parallax](http
 
 ## Overview
 
-HiveMind introduces a new paradigm in AI collaboration: **hives of cooperating AI models** working together to provide comprehensive, multi-perspective solutions. Unlike traditional single-agent chat systems, HiveMind creates a "super-agent" composed of specialized AI thinkers (Bees) coordinated by a central intelligence (Queen).
+HiveAI introduces a new paradigm in AI collaboration: **hives of cooperating AI models** working together to provide comprehensive, multi-perspective solutions. Unlike traditional single-agent chat systems, HiveMind creates a "super-agent" composed of specialized AI thinkers (Bees) coordinated by a central intelligence (Queen).
 
 Built entirely on **Parallax**, HiveAI ensures complete privacy by running on your own decentralized AI cluster. Whether you host models on your local machine or on private remote GPUs, your data never leaves your control. No public APIs, just pure, private, collaborative intelligence.
 

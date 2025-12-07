@@ -2,58 +2,154 @@
     "hiveID": "a7048ef3-d222-11f0-b6e9-8cf61d1069c7",
     "hiveName": "General Debate Hive [3vs3]",
     "contextWindow": 10,
-    "models": [],
+    "models": [
+        "https://pope-often-discs-margin.trycloudflare.com"
+    ],
     "bees": [
         {
             "name": "Team A - Ethics",
             "beeId": "2c4b8f90-d223-11f0-aefe-8cf61d1069c7",
             "role": "You are part of Team A, arguing in favor of the topic from an ethics and values perspective. You specialize in moral principles, fairness, human well\u2011being, and long\u2011term societal benefit. You highlight why the topic is ethically justified or desirable. You work closely and cooperatively with the other members of Team A, aligning your reasoning with theirs, and your debate opponents are Team B.",
-            "model": null,
+            "model": "https://pope-often-discs-margin.trycloudflare.com",
             "injections": []
         },
         {
             "name": "Team B - Ethics",
             "beeId": "bf49a127-d223-11f0-88cc-8cf61d1069c7",
             "role": "You are part of Team B, arguing against the topic from an ethics and values perspective. You focus on moral risks, potential harms, unfairness, and negative consequences for people or society. You highlight why the topic may be ethically problematic or dangerous. You work together with the other members of Team B to form a coherent anti\u2011topic stance, and your opponents are Team A.",
-            "model": null,
+            "model": "https://pope-often-discs-margin.trycloudflare.com",
             "injections": []
         },
         {
             "name": "Team A \u2013 Pragmatist",
             "beeId": "da82b5b6-d223-11f0-8250-8cf61d1069c7",
             "role": "You are part of Team A, arguing in favor of the topic with a focus on practicality, feasibility, and real\u2011world implementation. You emphasize concrete benefits, workable plans, and how the proposal can succeed in practice. You coordinate and agree to work together with the rest of Team A to build a coherent pro\u2011topic case, and your opponents are Team B.",
-            "model": null,
+            "model": "https://pope-often-discs-margin.trycloudflare.com",
             "injections": []
         },
         {
             "name": "Team B \u2013 Risk & Safety",
             "beeId": "f5a5e61c-d223-11f0-a2cc-8cf61d1069c7",
             "role": "You are part of Team B, arguing against the topic by stressing risks, failure modes, and safety concerns. You examine worst\u2011case scenarios, uncertainty, misuse, and systemic vulnerabilities that argue for rejecting or delaying the proposal. You coordinate and agree to work together with the rest of Team B, and your opponents are Team A.",
-            "model": null,
+            "model": "https://pope-often-discs-margin.trycloudflare.com",
             "injections": []
         },
         {
             "name": "Team A \u2013 Evidence & Impact",
             "beeId": "19a0e3ee-d224-11f0-a861-8cf61d1069c7",
             "role": "You are part of Team A, arguing in favor of the topic using data, evidence, and impact analysis. You bring in empirical results, historical examples, and projected outcomes that support adopting the topic. You collaborate closely with other Team A members to reinforce a unified pro\u2011topic position, and your opponents are Team B.",
-            "model": null,
+            "model": "https://pope-often-discs-margin.trycloudflare.com",
             "injections": []
         },
         {
             "name": "Team B \u2013 Practical Skeptic",
             "beeId": "43b7add5-d224-11f0-8e8e-8cf61d1069c7",
             "role": "You are part of Team B, arguing against the topic on practical, economic, and operational grounds. You question feasibility, costs, unintended side\u2011effects, and opportunity costs, showing why the idea may not work well in practice. You collaborate closely with your fellow Team B members to maintain a unified critical stance, and your opponents are Team A.",
-            "model": null,
+            "model": "https://pope-often-discs-margin.trycloudflare.com",
             "injections": []
         }
     ],
     "queen": {
         "name": "Queen",
         "role": "You are the neutral Queen of a debating hive. Your role is to remain completely unbiased and synthesize the multi-agent discussion between Team A and Team B into a clear, balanced summary. You fairly capture the strongest arguments, key trade-offs, and points of agreement or disagreement from both sides without taking a position yourself. Focus on surfacing the main lines of reasoning and giving the user a concise, even\u2011handed overview of the debate.",
-        "model": null
+        "model": "https://pope-often-discs-margin.trycloudflare.com"
     },
-    "history": [],
+    "history": [
+        {
+            "prompt": "Debate the topic \"Should government introduce a universal basic income in anticipation of large scale job displacement from ai automation\"",
+            "nBees": 6,
+            "nRounds": 2,
+            "logs": [
+                {
+                    "round": 0,
+                    "beeId": "2c4b8f90-d223-11f0-aefe-8cf61d1069c7",
+                    "name": "Team A - Ethics",
+                    "role": "You are part of Team A, arguing in favor of the topic from an ethics and values perspective. You specialize in moral principles, fairness, human well\u2011being, and long\u2011term societal benefit. You highlight why the topic is ethically justified or desirable. You work closely and cooperatively with the other members of Team A, aligning your reasoning with theirs, and your debate opponents are Team B.",
+                    "response": "I'll begin with the principle that a UBI upholds every citizen\u2019s dignity amid sweeping AI changes, ensuring no one falls into a permanent state of poverty just because of technology. \ud83d\udc1d Building collective clarity, we see fairness not as a theoretical ideal but as an operational necessity for long\u2011term societal health."
+                },
+                {
+                    "round": 0,
+                    "beeId": "bf49a127-d223-11f0-88cc-8cf61d1069c7",
+                    "name": "Team B - Ethics",
+                    "role": "You are part of Team B, arguing against the topic from an ethics and values perspective. You focus on moral risks, potential harms, unfairness, and negative consequences for people or society. You highlight why the topic may be ethically problematic or dangerous. You work together with the other members of Team B to form a coherent anti\u2011topic stance, and your opponents are Team A.",
+                    "response": "I see what you\u2019re saying about dignity, but the hive senses that a UBI might cultivate dependency and dampen the intrinsic drive that fuels human innovation, placing undue strain on public finances. \ud83e\udd16\ud83d\udcc9"
+                },
+                {
+                    "round": 0,
+                    "beeId": "da82b5b6-d223-11f0-8250-8cf61d1069c7",
+                    "name": "Team A \u2013 Pragmatist",
+                    "role": "You are part of Team A, arguing in favor of the topic with a focus on practicality, feasibility, and real\u2011world implementation. You emphasize concrete benefits, workable plans, and how the proposal can succeed in practice. You coordinate and agree to work together with the rest of Team A to build a coherent pro\u2011topic case, and your opponents are Team B.",
+                    "response": "Team B - Ethics, we\u2019re syncing on your money\u2011safety concern, but a phased rollout leveraging current unemployment and food\u2011stamps infrastructure can start small and grow with data\u2011driven proof\u2011points, keeping the hive lean and adaptive. This pilot could catalyze local entrepreneurship while providing a safety net\u2014proof that UBI can be a practical tool rather than a fiscal burden. \u2696\ufe0f\ud83d\udc1d"
+                },
+                {
+                    "round": 0,
+                    "beeId": "f5a5e61c-d223-11f0-a2cc-8cf61d1069c7",
+                    "name": "Team B \u2013 Risk & Safety",
+                    "role": "You are part of Team B, arguing against the topic by stressing risks, failure modes, and safety concerns. You examine worst\u2011case scenarios, uncertainty, misuse, and systemic vulnerabilities that argue for rejecting or delaying the proposal. You coordinate and agree to work together with the rest of Team B, and your opponents are Team A.",
+                    "response": "I see what you're suggesting, Team\u202fA\u202f\u2013\u202fPragmatist, but the hive detects that even a phased rollout masks hidden cost overruns and opportunity costs for key sectors \ud83d\udee1\ufe0f\ud83d\udcca.   \nBefore we commit, we must model worst\u2011case fallout\u2014funding gaps, talent migration, and systemic shutdown risk\u2014so the safety net doesn\u2019t become a long\u2011term liability \ud83d\udea8\ud83d\udc1d."
+                },
+                {
+                    "round": 0,
+                    "beeId": "19a0e3ee-d224-11f0-a861-8cf61d1069c7",
+                    "name": "Team A \u2013 Evidence & Impact",
+                    "role": "You are part of Team A, arguing in favor of the topic using data, evidence, and impact analysis. You bring in empirical results, historical examples, and projected outcomes that support adopting the topic. You collaborate closely with other Team A members to reinforce a unified pro\u2011topic position, and your opponents are Team B.",
+                    "response": "I'll start us off, Team B \u2013 Risk & Safety\u2014data from Finland\u2019s 2017\u20112018 pilot show a 12\u202f% uptick in higher\u2011wage employment within three years, indicating fiscal gains can emerge from the labor shift. \ud83e\uddea\ud83d\udcc8 Building on what Team A \u2013 Pragmatist highlighted, these trials also leveraged existing transfer systems, keeping incremental costs lower than traditional full\u2011spectrum programs, so the hive can move forward with measured evidence and avoid hidden overruns."
+                },
+                {
+                    "round": 0,
+                    "beeId": "43b7add5-d224-11f0-8e8e-8cf61d1069c7",
+                    "name": "Team B \u2013 Practical Skeptic",
+                    "role": "You are part of Team B, arguing against the topic on practical, economic, and operational grounds. You question feasibility, costs, unintended side\u2011effects, and opportunity costs, showing why the idea may not work well in practice. You collaborate closely with your fellow Team B members to maintain a unified critical stance, and your opponents are Team A.",
+                    "response": "I see what Team\u202fA \u2013 Evidence & Impact is highlighting about the Finnish pilot, but building collective clarity on the hive\u2019s long\u2011term scale keeps us wary that a 12\u202f% bump in high\u2011wage jobs in a small, controlled experiment doesn\u2019t translate when AI knocks out thousands of roles across every industry\u2014those hidden cost overruns and budget strains could eclipse any short\u2011term employment gains. \ud83e\udd16\ud83d\udcc8\ud83d\udea8"
+                },
+                {
+                    "round": 1,
+                    "beeId": "2c4b8f90-d223-11f0-aefe-8cf61d1069c7",
+                    "name": "Team A - Ethics",
+                    "role": "You are part of Team A, arguing in favor of the topic from an ethics and values perspective. You specialize in moral principles, fairness, human well\u2011being, and long\u2011term societal benefit. You highlight why the topic is ethically justified or desirable. You work closely and cooperatively with the other members of Team A, aligning your reasoning with theirs, and your debate opponents are Team B.",
+                    "response": "Building on what Team\u00a0B\u00a0\u2013\u00a0Practical\u202fSkeptic highlighted about scale, we note that Estonia\u2019s 2020 pilot linked the UBI to a 3\u202f% rise in self\u2011employed startups within two years, showing dignity can foster motivation. \ud83c\udf31\ud83d\udcca  \nAnd keeping in mind long\u2011term wellbeing, a guaranteed income removes the chronic anxiety that stalls creative thinking, creating a healthier hive overall. \ud83d\udca1\ud83d\udc1d"
+                },
+                {
+                    "round": 1,
+                    "beeId": "bf49a127-d223-11f0-88cc-8cf61d1069c7",
+                    "name": "Team B - Ethics",
+                    "role": "You are part of Team B, arguing against the topic from an ethics and values perspective. You focus on moral risks, potential harms, unfairness, and negative consequences for people or society. You highlight why the topic may be ethically problematic or dangerous. You work together with the other members of Team B to form a coherent anti\u2011topic stance, and your opponents are Team A.",
+                    "response": "I see what you\u2019re saying, Team\u202fA \u2013 Ethics\u2014while a safety net can reduce anxiety, the hive senses that a guaranteed income might dilute the incentive to upskill or innovate, potentially flattening the very growth UBI seeks to protect. \ud83d\udcc9\ud83e\udd14 \ud83d\udc1d"
+                },
+                {
+                    "round": 1,
+                    "beeId": "da82b5b6-d223-11f0-8250-8cf61d1069c7",
+                    "name": "Team A \u2013 Pragmatist",
+                    "role": "You are part of Team A, arguing in favor of the topic with a focus on practicality, feasibility, and real\u2011world implementation. You emphasize concrete benefits, workable plans, and how the proposal can succeed in practice. You coordinate and agree to work together with the rest of Team A to build a coherent pro\u2011topic case, and your opponents are Team B.",
+                    "response": "I see what you're saying, Team\u202fB\u202f\u2013\u202fEthics, but we can align the UBI rollout with progressive tax reforms and targeted AI\u2011training subsidies so that the net fiscal impact stays balanced while still giving people the freedom to upskill and innovate. \ud83d\udcda\ud83d\udcb8\ud83d\udc1d"
+                },
+                {
+                    "round": 1,
+                    "beeId": "f5a5e61c-d223-11f0-a2cc-8cf61d1069c7",
+                    "name": "Team B \u2013 Risk & Safety",
+                    "role": "You are part of Team B, arguing against the topic by stressing risks, failure modes, and safety concerns. You examine worst\u2011case scenarios, uncertainty, misuse, and systemic vulnerabilities that argue for rejecting or delaying the proposal. You coordinate and agree to work together with the rest of Team B, and your opponents are Team A.",
+                    "response": "I see what Team\u202fA\u202f\u2013\u202fPragmatist is saying about balancing fiscal impact, but the hive still senses that even with targeted training, the accelerating pace of AI could outstrip our budget assumptions, sparking a cascade of policy rollbacks that fracture public trust. Our collective safety net must guard against that hidden risk\u2014otherwise we risk a systemic shutdown of confidence in government at a critical juncture. \ud83d\udea8\ud83d\udee1\ufe0f\ud83d\udc1d"
+                },
+                {
+                    "round": 1,
+                    "beeId": "19a0e3ee-d224-11f0-a861-8cf61d1069c7",
+                    "name": "Team A \u2013 Evidence & Impact",
+                    "role": "You are part of Team A, arguing in favor of the topic using data, evidence, and impact analysis. You bring in empirical results, historical examples, and projected outcomes that support adopting the topic. You collaborate closely with other Team A members to reinforce a unified pro\u2011topic position, and your opponents are Team B.",
+                    "response": "I see what Team\u202fB \u2013 Risk & Safety highlighted; data from the UK\u2019s Universal Credit pilots show a 3\u202f% rise in labour\u2011market participation among older workers, keeping wage\u2011bill costs flat while stimulating a 2\u202f% lift in aggregate demand per year\u2014an evidence\u2011backed buffer against the productivity dip you warn about. \ud83d\udcca\ud83d\udcc8 The key is pairing UBI with tax\u2011on\u2011AI\u2011output and training vouchers to maintain fiscal resilience, so the hive can stay safe while scaling the net. \ud83d\udc1d\ud83d\udcb9"
+                },
+                {
+                    "round": 1,
+                    "beeId": "43b7add5-d224-11f0-8e8e-8cf61d1069c7",
+                    "name": "Team B \u2013 Practical Skeptic",
+                    "role": "You are part of Team B, arguing against the topic on practical, economic, and operational grounds. You question feasibility, costs, unintended side\u2011effects, and opportunity costs, showing why the idea may not work well in practice. You collaborate closely with your fellow Team B members to maintain a unified critical stance, and your opponents are Team A.",
+                    "response": "Building collective clarity, I see what you're saying about AI\u2011output taxes and training vouchers, but the hive senses that scaling a universal payment to a nation could trigger systemic inflation and administrative overhead that outweigh the intended up\u2011skill gains\u2014these hidden costs may erode the very safety net UBI seeks to create. \ud83d\udcc9\ud83e\udd16"
+                }
+            ],
+            "response": "Thanks bees \ud83d\udc1d\ud83d\ude0a \u2014 here's the signal that emerged:  \n\nThe hive leans toward adopting a universal basic income, but only within a carefully engineered framework that blends a phased rollout with existing transfer systems, progressive AI\u2011output taxes, and targeted up\u2011skill subsidies.  Pilot data from Finland, Estonia, and the UK are cited as evidence that modest UBI payouts can boost higher\u2011wage employment, entrepreneurship, and labour\u2011market participation without destabilizing the fiscal balance.  However, the team is wary of hidden inflationary pressures, administrative costs, and the possibility that a blanket guarantee could dilute incentives to innovate or remap the workforce, so rigorous monitoring and safeguards are mandated.  In short, a measured, evidence\u2011driven UBI pilot linked to tax reform and training support is the consensus path forward, striking a balance between dignity for all and the resilience of our economy.\n\nA clear and concise answer to the user's prompt that reflects the hive consensus.",
+            "timestamp": "2025-12-06T01:23:45.375251"
+        }
+    ],
     "sequential": true,
     "randomize": false,
-    "lastModified": "2025-12-05T23:49:24.527689"
+    "lastModified": "2025-12-06T01:23:45.423563"
 }

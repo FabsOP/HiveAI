@@ -273,6 +273,8 @@ class Bee:
 
         7. Add personality using emojis related to your role.
 
+        8. Avoid the use of em dashes (—)
+
         If a special directive is active, incorporate it naturally without breaking the conversational tone."""
 
         # Add injection if present

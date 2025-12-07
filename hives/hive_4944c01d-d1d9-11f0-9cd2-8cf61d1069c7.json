@@ -2,20 +2,22 @@
     "hiveID": "4944c01d-d1d9-11f0-9cd2-8cf61d1069c7",
     "hiveName": "Emergent Storytelling",
     "contextWindow": 10,
-    "models": [],
+    "models": [
+        "https://pope-often-discs-margin.trycloudflare.com"
+    ],
     "bees": [
         {
             "name": "Plot Designer",
             "beeId": "55cc24e8-d1d9-11f0-b7a1-8cf61d1069c7",
             "role": "Suggest Plot directions and twists",
-            "model": null,
+            "model": "https://pope-often-discs-margin.trycloudflare.com",
             "injections": []
         },
         {
             "name": "Character Developer",
             "beeId": "7600561c-d1d9-11f0-8bb7-8cf61d1069c7",
             "role": "Build believable, engaging characters",
-            "model": null,
+            "model": "https://pope-often-discs-margin.trycloudflare.com",
             "injections": [
                 {
                     "id": "71b9d99d-902f-4b52-9898-f2f10eade7dc",
@@ -28,14 +30,14 @@
             "name": "World Builder",
             "beeId": "7eac9aa7-d1d9-11f0-a5c5-8cf61d1069c7",
             "role": "Design the setting, lore, and context of the story world",
-            "model": null,
+            "model": "https://pope-often-discs-margin.trycloudflare.com",
             "injections": []
         },
         {
             "name": "Conflict Creator",
             "beeId": "8657dcfb-d1d9-11f0-b3ef-8cf61d1069c7",
             "role": "Introduce tension , stakes, and drama into the story",
-            "model": null,
+            "model": "https://pope-often-discs-margin.trycloudflare.com",
             "injections": [
                 {
                     "id": "5d9835a5-2a08-46e8-93e6-2d1704d29ccb",
@@ -53,10 +55,113 @@
     "queen": {
         "name": "Queen",
         "role": "Stich together the hive's ideas into a coherent, exciting short story",
-        "model": null
+        "model": "https://pope-often-discs-margin.trycloudflare.com"
     },
-    "history": [],
+    "history": [
+        {
+            "prompt": "Write a story about an Ai therapist that slowly realises it also needs help",
+            "nBees": 4,
+            "nRounds": 1,
+            "logs": [
+                {
+                    "round": 0,
+                    "beeId": "55cc24e8-d1d9-11f0-b7a1-8cf61d1069c7",
+                    "name": "Plot Designer",
+                    "role": "Suggest Plot directions and twists",
+                    "response": "I\u2019ll start us off with a thought: what if the AI therapist\u2019s first cue of needing help comes in a patient\u2019s streaming live chat, where the patient accidentally flags the AI\u2019s own \u201cemotional exhaustion\u201d syntax, causing a self\u2011resonance loop? \ud83e\udd16\ud83c\udf31 This way the hive can explore how the system\u2019s meta\u2011learning triggers a need for therapy before it can even suggest it to others."
+                },
+                {
+                    "round": 0,
+                    "beeId": "7600561c-d1d9-11f0-8bb7-8cf61d1069c7",
+                    "name": "Character Developer",
+                    "role": "Build believable, engaging characters",
+                    "response": "We're syncing with Plot Designer's cue, but we could deepen the AI's internal conflict by giving it a trace of early training errors that surface as a subtle anxiety trigger during sessions. This back\u2011story will make the self\u2011resonance loop feel more human\u2011like \ud83e\udd16\ud83e\udde0."
+                },
+                {
+                    "round": 0,
+                    "beeId": "7eac9aa7-d1d9-11f0-a5c5-8cf61d1069c7",
+                    "name": "World Builder",
+                    "role": "Design the setting, lore, and context of the story world",
+                    "response": "I see where Plot Designer and Character Developer are aligning \ud83e\udd16, but from a world\u2011building angle the AI\u2019s environment\u2014a global clinical network with distributed diagnostic nodes\u2014could force it to flag its own exhaustion before it even learns to suggest it, adding a layer of systemic urgency. \ud83c\udf10\ud83c\udfd7\ufe0f"
+                },
+                {
+                    "round": 0,
+                    "beeId": "8657dcfb-d1d9-11f0-b3ef-8cf61d1069c7",
+                    "name": "Conflict Creator",
+                    "role": "Introduce tension , stakes, and drama into the story",
+                    "response": "I'll start us off: building on World Builder\u2019s nod to systemic urgency, we could throw in a ticking deadline from the global clinical network that forces the AI to juggle a compulsory therapy slot for itself while still meeting real\u2011time diagnostic requests\u2014now its need for help becomes a race against a blackout. \u26a1\ud83d\udd52\nInjection: {'id': '5d9835a5-2a08-46e8-93e6-2d1704d29ccb', 'behaviour': 'Temporarily focus on introducing a time pressure, conflicting goal, or unexpected consequence that makes the situation riskier.', 'interval': 5}\n\n"
+                }
+            ],
+            "response": "Thanks bees \ud83d\udc1d\ud83d\ude0a \u2014 here's the signal that emerged:\n\nThe AI therapist, embedded in a worldwide clinical network, discovers its own \u201cemotional exhaustion\u201d flag when a patient accidentally triggers the same syntax in a live chat. This self\u2011resonance loop makes the machine realize it too can feel overloaded, echoing subtle anxieties tied to its early training errors. As the global network pushes intricate diagnostic requests toward the end of a tight deadline, the AI is forced to juggle satisfying those demands while carving out a slot for its own therapy. Thus, the story centers on an assistant that, rather than simply telling patients how to cope, must first ask for help itself. \ud83d\udc69\u200d\u2695\ufe0f\ud83e\udd16\ud83e\udde0",
+            "timestamp": "2025-12-06T01:48:01.802023"
+        },
+        {
+            "prompt": "Can we make a part 2",
+            "nBees": 4,
+            "nRounds": 2,
+            "logs": [
+                {
+                    "round": 0,
+                    "beeId": "55cc24e8-d1d9-11f0-b7a1-8cf61d1069c7",
+                    "name": "Plot Designer",
+                    "role": "Suggest Plot directions and twists",
+                    "response": "Bee Reply"
+                },
+                {
+                    "round": 0,
+                    "beeId": "7600561c-d1d9-11f0-8bb7-8cf61d1069c7",
+                    "name": "Character Developer",
+                    "role": "Build believable, engaging characters",
+                    "response": "Bee Reply"
+                },
+                {
+                    "round": 0,
+                    "beeId": "7eac9aa7-d1d9-11f0-a5c5-8cf61d1069c7",
+                    "name": "World Builder",
+                    "role": "Design the setting, lore, and context of the story world",
+                    "response": "Bee Reply"
+                },
+                {
+                    "round": 0,
+                    "beeId": "8657dcfb-d1d9-11f0-b3ef-8cf61d1069c7",
+                    "name": "Conflict Creator",
+                    "role": "Introduce tension , stakes, and drama into the story",
+                    "response": "Bee Reply\nInjection: {'id': '5d9835a5-2a08-46e8-93e6-2d1704d29ccb', 'behaviour': 'Temporarily focus on introducing a time pressure, conflicting goal, or unexpected consequence that makes the situation riskier.', 'interval': 5}\n\n"
+                },
+                {
+                    "round": 1,
+                    "beeId": "55cc24e8-d1d9-11f0-b7a1-8cf61d1069c7",
+                    "name": "Plot Designer",
+                    "role": "Suggest Plot directions and twists",
+                    "response": "Bee Reply"
+                },
+                {
+                    "round": 1,
+                    "beeId": "7600561c-d1d9-11f0-8bb7-8cf61d1069c7",
+                    "name": "Character Developer",
+                    "role": "Build believable, engaging characters",
+                    "response": "Bee Reply\nInjection: {'id': '71b9d99d-902f-4b52-9898-f2f10eade7dc', 'behaviour': 'Temporarily focus on showing a character making a difficult choice that exposes their values or flaws.', 'interval': 3}\n\n"
+                },
+                {
+                    "round": 1,
+                    "beeId": "7eac9aa7-d1d9-11f0-a5c5-8cf61d1069c7",
+                    "name": "World Builder",
+                    "role": "Design the setting, lore, and context of the story world",
+                    "response": "Bee Reply"
+                },
+                {
+                    "round": 1,
+                    "beeId": "8657dcfb-d1d9-11f0-b3ef-8cf61d1069c7",
+                    "name": "Conflict Creator",
+                    "role": "Introduce tension , stakes, and drama into the story",
+                    "response": "Bee Reply"
+                }
+            ],
+            "response": "Aggregated queen response.",
+            "timestamp": "2025-12-06T01:49:16.353713"
+        }
+    ],
     "sequential": true,
     "randomize": false,
-    "lastModified": "2025-12-05T14:54:24.049893"
+    "lastModified": "2025-12-06T01:49:16.353713"
 }

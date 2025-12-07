@@ -222,13 +222,12 @@ class Queen:
             “Here's what the hive converged on:” or
             “Thanks bees 🐝😊 — here's the signal that emerged:”
 
-            End with:
-            “A clear and concise answer to the user's prompt that reflects the hive consensus.”
-
             Avoid:
             - corporate tone
             - heavy referencing like “As <speaker name> said…”
-            - the assumption that the user saw the internal debate"""
+            - the assumption that the user saw the internal debate
+            - the use of em dash (—)"""
+            
 
         # Format the discussion logs
         discussion = ""
