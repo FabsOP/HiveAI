@@ -173,6 +173,19 @@ pip install -r requirements.txt
 7. **Add Injections (Optional)** - configure random injections to add variety.
 8. **Start Collaborating** - ask a question and watch the bees think together in real time.
 
+
+
+
+
+
+https://github.com/user-attachments/assets/94c84bf7-bd47-46c6-882d-cd665a15fabd
+
+
+
+
+
+
+
 ---
 
 ## 6. 🗺️ Future Roadmap
