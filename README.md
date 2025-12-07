@@ -1,159 +1,195 @@
-# HiveAI - A Hivemind of LLMs🐝
+# HiveAI - A Private LLM Hivemind You Can Run Yourself 🐝
 
-A revolutionary, fully private multi-agent LLM system powered by [Parallax](https://github.com/GradientHQ/parallax/tree/main).
+## 1. Overview
 
-## Overview 📖
+HiveAI is a **multi-agent LLM hivemind** you can run on your own hardware (or rented GPUs) while keeping everything fully private.
 
-HiveAI introduces a new paradigm in AI collaboration: **hives of cooperating AI models** working together to provide comprehensive, multi-perspective solutions. Unlike traditional single-agent chat systems, HiveMind creates a "super-agent" composed of specialized AI thinkers (Bees) coordinated by a central intelligence (Queen).
+Instead of relying on a single model to answer your questions, HiveAI spins up a **swarm of specialised agents called "bees"** that think together, debate, critique, and refine ideas. At the centre sits **the Queen**, a coordinating agent that manages context and turns the swarm’s raw thinking into a clean, structured answer.
 
-Built entirely on **Parallax**, HiveAI ensures complete privacy by running on your own decentralized AI cluster. Whether you host models on your local machine or on private remote GPUs, your data never leaves your control. No public APIs, just pure, private, collaborative intelligence.
+Powered by **[Parallax](https://github.com/GradientHQ/parallax/tree/main)**, HiveAI talks to fully private LLM endpoints (local or remote tunnels), so your data never leaves your control. 
 
-
-
-https://github.com/user-attachments/assets/c29fd536-e755-4520-8fe4-6b5ed068e60f
-
-
-## Core Concepts
-### What is a Hive?
-A Hive is a collaborative workspace dedicated to one conversation or project. It acts as an autonomous reasoning system containing:
-- **Bees**: Individual AI models with unique roles (e.g., Creative, Analytical).
-- **Queen**: A special coordinator that manages context and synthesizes final answers.
-- **Memory**: Complete, persistent conversation history.
-- **Cluster**: A set of private LLM endpoints provided by your Parallax setup.
-
-### The Bees (Workers)
-Bees are the specialized agents that do the thinking. Each bee has:
-- **Role**: A specific lens through which it views the problem (e.g., "Devil's Advocate").
-- **Model**: A private Parallax endpoint (local or remote through a tunnel).
-- **Injections**: Behavioral instructions that trigger periodically to guide the conversation.
-
-### The Queen (Coordinator)
-The Queen ensures coherence in the chaos of collaboration:
-1. **Context Provider**: She retrieves relevant memories from past discussions before rounds begin.
-2. **Aggregator**: She reads all bee outputs from every round and synthesizes a single, clear, actionable response.
-
-### The Workflow (Rounds)
-Instead of a simple Q&A, HiveMind uses an iterative process:
-1. **Prompt**: You send a request.
-2. **Context**: The Queen fetches relevant history.
-3. **Collaboration**: Bees discuss the topic for **N rounds**, building on each other's ideas.
-4. **Aggregation**: The Queen compiles the final result.
-5. **Storage**: The entire interaction is saved for future context.
+No SaaS APIs, no telemetry, just your own hive.
 
 ---
 
-## The Injection System: Controlled Stochasticity
+## 2. How It Works 🐝⚙️
 
-Random injections are a core feature of the HiveMind reasoning engine. They introduce **controlled unpredictability**, creative divergence, and non-deterministic reasoning paths across multi-agent rounds.
+At a high level, HiveAI is a **hivemind chat system**:
 
-Unlike static prompts, injections are ephemeral, probability-based modifiers that allow bees to break out of deterministic cycles.
+- You create a **Hive** for a conversation or project.
+- Inside that hive you define a set of **Bees** (specialised agents) and a **Queen** (coordinator).
+- When you send a prompt, the hive operates in **rounds**: each bee responds, bees discuss and debate, and then the Queen synthesizes the swarm's thinking into a single answer.
 
-### 1. What is an Injection?
-An injection is a specific instruction, constraint, or "creative spark" temporarily added to a bee's prompt for a single round.
-- **Ephemeral**: They decay automatically after the round ends.
-- **Non-Destructive**: They never permanently modify a bee's identity or stored memory.
-- **Additive**: Multiple injections can trigger simultaneously without conflict.
+### 2.1 The Hive
 
-### 2. The Interval Mechanism (Probability Rolls)
-Each injection has an `interval` value (X), representing a `1/X` chance of activation per round.
-- `interval = 1` → **100%** (Always active)
+A Hive is a collaborative reasoning space that bundles:
+
+- **Bees** - individual AI agents with specific roles (e.g. Creative, Critic, Analyst).
+- **Queen** - a special agent that manages context and synthesises outputs.
+- **Memory** - persistent conversation history that the Queen can pull from.
+- **Cluster** - a set of private LLM endpoints exposed by your Parallax setup.
+
+### 2.2 Bees (Workers)
+
+Bees are the specialised workers of the hive. Each bee has:
+
+- **A Role** - the lens it brings to the problem (e.g. "Realist", "Creative").
+- **A Model** - a Parallax-backed endpoint (local or remote tunnel).
+- **Injections** - probability-based behavioural tweaks that can fire on certain rounds.
+
+### 2.3 The Queen (Coordinator)
+
+The Queen is responsible for turning multi-agent chaos into something useful, while staying neutral:
+
+1. **Context provider** - fetches relevant memories from past discussions before each round and provides it to the bees.
+2. **Aggregator** - reads all bee outputs and produces one clear, structured, actionable reply.
+3. **Neutral summariser** - does not interpret the prompt herself or take a side; she only synthesises what the bees say back to you.
+
+### 2.4 Rounds of Collaboration
+
+Instead of a single-turn Q&A, HiveAI thinks in rounds:
+
+1. **Prompt** - you send a request.
+2. **Context** - the Queen pulls relevant history.
+3. **Collaboration** - bees respond over **N rounds**, reading and building on each other.
+4. **Aggregation** - the Queen compresses the swarm into a single answer.
+5. **Storage** - the whole interaction is saved for future context.
+
+### 2.5 Optional Injections for Extra Variety 🎲
+
+On top of their normal roles, bees can optionally have **injections** attached to them during a discussion. These are small, temporary behavioural nudges that sometimes fire on a given round.
+
+Instead of being part of the core loop, injections sit on top of it: they’re ephemeral, probability-based modifiers that occasionally push a bee to respond in a slightly different way (for example by challenging the previous point or adding a metaphor).
+
+#### a) What Is an Injection?
+
+An injection is a temporary instruction, constraint, or "creative spark" added to a bee’s prompt for a single round.
+
+- **Ephemeral** - automatically removed after the round.
+- **Non-destructive** - never permanently changes a bee’s identity or memory.
+- **Additive at definition time** - you can define multiple injections for a single bee.
+
+#### b) Interval Mechanism (Probability Rolls)
+
+Each injection has an `interval` value (X), representing a `1/X` chance of activation per round:
+
+- `interval = 1` → **100%** (always hits on the roll)
 - `interval = 2` → **50%** chance each round
 - `interval = 10` → **10%** chance each round
 
-This system uses **independent Bernoulli trials**, meaning:
-- A bee can receive zero, one, or multiple injections in a single round.
-- Different bees may get different injections simultaneously.
-- Behavior is statistically predictable but situationally surprising.
+For a given bee:
 
-### 3. How It Works in Practice
-When a round begins, the system performs a roll for every injection on every bee. Active injections are appended to a structured section of the system prompt:
+1. **Roll independently** for each defined injection using its own `1/X` probability.
+2. Collect all injections whose rolls **hit** on this round.
+3. If **no** injections hit, the bee behaves normally.
+4. If **exactly one** injection hits, apply that injection.
+5. If **multiple** injections hit:
+   - Prefer the one with the **lowest probability** (i.e. the **largest** `interval` value).
+   - If several share the same lowest probability, pick **one of those at random**.
 
+Only **one injection** is ever applied to a bee in a given round. This prevents contradictory instructions (e.g. “Be extra verbose” vs. “Don’t contribute to the discussion this round”) from being active at the same time.
+
+#### c) How It Looks in Practice
+
+When a round begins, the system performs a roll for every injection on every bee. Active injections are appended to a structured section of the system prompt, for example:
+
+```text
+# Special directive (Must follow):
+Temporarily think out loud this round.
 ```
-# Random Injections (Round 4)
-- "Play devil's advocate against the previous point."
-- "Use a metaphor to explain the concept."
-```
 
-### 4. Why It Matters (Research-Grade Architecture)
-This is not a gimmick; it is a **multi-agent creativity and variability engine**.
-- **Controlled Stochasticity**: Boosts brainstorming and exploration without losing coherence.
-- **Divergent Behavior**: Prevents bees from falling into repetitive, deterministic loops.
-- **Ensemble Diversity**: Forces different perspectives, leading to richer aggregation by the Queen.
-- **Scalable**: Zero overhead on your Parallax cluster; it's purely prompt decoration.
+#### d) Why injections?
+
+This injection system adds controlled randomness and variation to how bees respond, instead of being a simple prompt tweak:
+
+- **Controlled stochasticity** boosts exploration without losing coherence.
+- **Divergent behaviour** stops the hive from collapsing into repetitive loops.
+- **Ensemble diversity** forces different perspectives for the Queen to synthesise.
 
 ---
 
-## Use Cases & Configurations
+## 3. 💡 Why a Hivemind?
 
-### 1. Deep Research & Analysis
-Perfect for literature reviews, market research, or feasibility studies where you need multiple distinct viewpoints.
+A single LLM is good, but it thinks in **one voice**. A hive lets you orchestrate **many perspectives** working together, which:
 
-**Configuration:**
-- **Queen**: "Synthesis Coordinator" (Focus: Structure & Clarity)
-- **Bee 1 (Researcher)**: "Find and analyze relevant facts and data."
-- **Bee 2 (Critic)**: "Identify potential flaws, biases, and missing information."
-- **Bee 3 (Contextualizer)**: "Connect findings to historical trends and broader context."
-- **Rounds**: 3-5 (Allows for initial finding, critique, and refinement)
+- Improves reasoning depth and structure.
+- Reduces blind spots through critique and debate.
+- Produces richer, more creative emergent outputs.
 
-### 2. Creative Brainstorming
-Ideal for overcoming writer's block, generating product ideas, or design thinking.
+This unlocks patterns like:
 
-**Configuration:**
-- **Queen**: "Creative Director" (Focus: Vision & Cohesion)
-- **Bee 1 (Dreamer)**: "Generate wild, unconventional, and novel ideas."
-- **Bee 2 (Pragmatist)**: "Evaluate ideas for feasibility and real-world application."
-- **Bee 3 (Customer)**: "View everything from the user's perspective/pain points."
-- **Injections**: "Add a surprising twist" (Interval: Every 2 rounds)
-- **Rounds**: 4 (Divergent thinking -> Convergent refinement)
-
-### 3. Strategic Decision Making
-For complex business decisions, risk assessment, or strategic planning.
-
-**Configuration:**
-- **Queen**: "CEO" (Focus: Decision & Action)
-- **Bee 1 (Optimist)**: "Focus on growth, opportunity, and best-case scenarios."
-- **Bee 2 (Pessimist)**: "Focus on risk, failure modes, and worst-case scenarios."
-- **Bee 3 (Analyst)**: "Focus on data, costs, and operational requirements."
-- **Rounds**: 3 (Thesis -> Antithesis -> Synthesis)
+- Collaborative workflows where agents play different roles, like a real team.
+- Multi-step pipelines where each bee specialises in a stage of the workflow.
+- Divergent + convergent thinking, with some bees exploring and others refining.
+- Brainstorming swarms that generate, debate, vote, cluster, and evolve ideas.
 
 ---
 
-## Getting Started
+## 4. 🎯 Example Hive Setups
+
+Two concrete examples you can build with HiveAI:
+
+### a) Brainstorm Hive
+
+- **Bees (3):**
+  - **Dreamer** - generates wild, unconventional ideas and creative directions.
+  - **Pragmatist** - filters ideas for feasibility and real-world constraints.
+  - **Scout** - rapidly scans for overlooked angles, constraints, or opportunities that the others missed and brings them back to the hive.
+
+### b) Debate Hive
+
+Based on the `General Debate Hive [3vs3]` config in this repo.
+
+- **Bees (6):**
+  - **Team A - Ethics** - argues in favour from values, fairness, and long-term wellbeing.
+  - **Team B - Ethics** - argues against from ethical risks, harms, and unfairness.
+  - **Team A - Pragmatist** - focuses on practical implementation and feasibility for the pro side.
+  - **Team B - Risk & Safety** - surfaces worst-case scenarios and safety concerns for the con side.
+  - **Team A - Evidence & Impact** - brings data, evidence, and impact analysis for the pro side.
+  - **Team B - Practical Skeptic** - questions feasibility, costs, and unintended side-effects for the con side.
+
+In both setups, the Queen remains neutral and only synthesises the bees’ reasoning back to you.
+
+---
+
+## 5. 🚀 Getting Started
 
 ### Installation
+
 ```bash
-git clone https://github.com/your-repo/HiveAI.git
+git clone https://github.com/FabsOP/HiveAI.git
 cd HiveAI
 pip install -r requirements.txt
 ```
 
 ### Quick Start
 
-1. **Launch the UI**: Run `python app.py` to start the application
-2. **Create a Hive**: Use the interface to create a new hive
-3. **Add Model Endpoints**: Connect your Parallax model endpoints (e.g., `http://localhost:3001`)
-4. **Create Bees**: Add worker bees to your hive through the UI
-5. **Attach Models**: Assign models to your Queen and Bees
-6. **Define Roles**: Set unique roles for each bee to guide their behavior
-7. **Add Injections** (Optional): Configure random injections to add variety to bee responses
-8. **Start Collaborating**: Send queries and watch the bees collaborate in real-time on the interactive canvas
+1. **Launch the UI** - run `python app.py`.
+2. **Create a Hive** - use the interface to spin up a new hive.
+3. **Add Model Endpoints** - connect your Parallax endpoints (e.g. `http://localhost:3001`).
+4. **Create Bees** - add bees to your hive through the UI.
+5. **Attach Models** - assign models to your Queen and bees.
+6. **Define Roles** - give each bee a clear role to guide behaviour.
+7. **Add Injections (Optional)** - configure random injections to add variety.
+8. **Start Collaborating** - ask a question and watch the bees think together in real time.
 
 ---
 
-## Future Roadmap
-Here are some of the future ideas for HiveAI
-- **Tool calling**: Define custom tools for the bee agents such as searching the web
-- **New Bee types**: J
-- **Document Ingestion**: Allow hives to read and analyze uploaded PDFs/text files.
+## 6. 🗺️ Future Roadmap
 
+Some ideas for where HiveAI could go next:
+- **New bee types** - new type of bees such as tool calling abilities
+- **Document ingestion** - let hives read and reason over PDFs and text files.
+- **Richer memory** - structured, long-term hive memory for projects.
 
 ---
 
-## License
+## 7. 📄 License
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+This project is licensed under the MIT License - see the `LICENSE` file for details.
 
 ---
 
 **Join the revolution in private, collaborative AI.**
+
 *Powered by [Parallax](https://github.com/GradientHQ/parallax/tree/main)*

@@ -3,7 +3,7 @@
     "hiveName": "Emergent Storytelling",
     "contextWindow": 10,
     "models": [
-        "https://pope-often-discs-margin.trycloudflare.com"
+        "https://pope-often-discs-margin.trycloudflare.com", "http:localhost:3001"
     ],
     "bees": [
         {
