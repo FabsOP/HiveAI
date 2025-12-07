@@ -1,15 +1,19 @@
-# HiveMind AI System 🐝
+# HiveAI - A Hivemind of LLMs🐝
 
 A revolutionary, fully private multi-agent LLM system powered by [Parallax](https://github.com/GradientHQ/parallax/tree/main).
 
-## Overview
+## Overview 📖
 
 HiveAI introduces a new paradigm in AI collaboration: **hives of cooperating AI models** working together to provide comprehensive, multi-perspective solutions. Unlike traditional single-agent chat systems, HiveMind creates a "super-agent" composed of specialized AI thinkers (Bees) coordinated by a central intelligence (Queen).
 
 Built entirely on **Parallax**, HiveAI ensures complete privacy by running on your own decentralized AI cluster. Whether you host models on your local machine or on private remote GPUs, your data never leaves your control. No public APIs, just pure, private, collaborative intelligence.
 
-## Core Concepts
 
+
+https://github.com/user-attachments/assets/c29fd536-e755-4520-8fe4-6b5ed068e60f
+
+
+## Core Concepts
 ### What is a Hive?
 A Hive is a collaborative workspace dedicated to one conversation or project. It acts as an autonomous reasoning system containing:
 - **Bees**: Individual AI models with unique roles (e.g., Creative, Analytical).
@@ -35,28 +39,6 @@ Instead of a simple Q&A, HiveMind uses an iterative process:
 3. **Collaboration**: Bees discuss the topic for **N rounds**, building on each other's ideas.
 4. **Aggregation**: The Queen compiles the final result.
 5. **Storage**: The entire interaction is saved for future context.
-
----
-
-## The Power of Emergence
-
-HiveAI is an **emergent reasoning framework** where multiple small models outperform a single larger model through structured collaboration. This concept **Collective Intelligence** is at the frontier of AI research.
-
-Users can attach any model to any Bee (7B, 13B, 70B...). While each Bee might be "weak" or limited on its own, the system creates value through interaction:
-
-### From Weakness to Strength
-1. **Structured Communication**: Bees don't just chat; they follow a rigid multi-round protocol.
-2. **Custom Roles**: Specialized lenses (e.g., "The Critic", "The Dreamer") force cognitive diversity.
-3. **Injection Intervals**: Periodic behavioral nudges keep the conversation dynamic and prevent stagnation.
-
-### Emergent Behaviors
-Across multiple rounds, you start to see capabilities that no single model possesses:
-- **Cross-Correction**: Bees catch and correct each other's hallucinations or logic gaps.
-- **Multi-Perspective Reasoning**: Combining analytical rigor with creative leaps in the same workflow.
-- **Synthesized Insights**: The Queen aggregates disparate ideas into a coherent, superior whole.
-- **Creative + Analytical Blend**: Simultaneously exploring wild ideas and practical constraints.
-
-**This is not just a chatroom; it is an engine for generating intelligence that is greater than the sum of its parts.**
 
 ---
 
@@ -159,14 +141,11 @@ pip install -r requirements.txt
 ---
 
 ## Future Roadmap
-
-We are actively expanding HiveMind's capabilities:
-
-- **Parallel Inference**: Running multiple bees simultaneously on distributed Parallax nodes for faster round completion.
-- **Semantic Memory**: Enhanced vector-based retrieval for even smarter context management.
+Here are some of the future ideas for HiveAI
+- **Tool calling**: Define custom tools for the bee agents such as searching the web
+- **New Bee types**: J
 - **Document Ingestion**: Allow hives to read and analyze uploaded PDFs/text files.
-- **API Mode**: Headless mode to integrate HiveMind reasoning into other applications.
-- **Enhanced Canvas**: More bee animations, visual effects, and interaction indicators.
+
 
 ---
 
