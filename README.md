@@ -1,4 +1,10 @@
 # HiveAI - A Private LLM Hivemind You Can Run Yourself 🐝
+<p align="center">
+  <img width="683" height="384" alt="hiveai cover" src="https://github.com/user-attachments/assets/af68f69e-6105-451f-85d4-e41e2cf65cdd" />
+</p>
+<p align="center">
+  <a href="https://x.com/Pot4toNinj4/status/1997732232686162257?s=20">Click here to see the hive in action</a>
+</p>
 
 ## 1. Overview
 
@@ -9,6 +15,7 @@ Instead of relying on a single model to answer your questions, HiveAI spins up a
 Powered by **[Parallax](https://github.com/GradientHQ/parallax/tree/main)**, HiveAI talks to fully private LLM endpoints (local or remote tunnels), so your data never leaves your control. 
 
 No SaaS APIs, no telemetry, just your own hive.
+<img width="1365" height="591" alt="image" src="https://github.com/user-attachments/assets/866b8687-f6f6-48ca-ad84-8730668202fe" />
 
 ---
 
